@@ -1,3 +1,6 @@
+import Button from '../components/Button';
+import Header from '../components/Header';
+
 export default function SignInPage() {
   const handleGitHubSignIn = () => {
     console.log('GitHub Sign In');
@@ -5,8 +8,15 @@ export default function SignInPage() {
 
   return (
     <>
-      <h1>Sign in to your account</h1>
-      <button onClick={handleGitHubSignIn}>Sign in with GitHub</button>
+      <Header />
+
+      <div>
+        <h2>Sign in to your account</h2>
+
+        <div>
+          <Button onClick={handleGitHubSignIn}>Sign in with GitHub</Button>
+        </div>
+      </div>
     </>
   );
 }
