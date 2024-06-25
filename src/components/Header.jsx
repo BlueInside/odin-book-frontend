@@ -1,8 +1,9 @@
+import { StyledHeader, Title, Tagline } from '../styles/HeaderStyles.styled';
 export default function Header() {
   return (
-    <header>
-      <h1>Odin-Book</h1>
-      <p>Connect with friends on Odin-Book.</p>
-    </header>
+    <StyledHeader>
+      <Title>Odin-Book</Title>
+      <Tagline>Thank you for trying out mine app!</Tagline>
+    </StyledHeader>
   );
 }

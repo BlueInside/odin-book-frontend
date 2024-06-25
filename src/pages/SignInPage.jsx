@@ -1,7 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
 import Header from '../components/Header';
 import { useAuth } from '../hooks/useAuth';
+import Footer from '../components/Footer';
+import {
+  PageContainer,
+  ContentContainer,
+  Title,
+  StyledButton,
+  Logo,
+  PageLayout,
+} from '../styles/SignIn.styled';
 
 export default function SignInPage() {
   const { user } = useAuth();
@@ -13,25 +21,30 @@ export default function SignInPage() {
 
   return (
     <>
-      <Header />
-
-      <div>
-        <h2>Sign in to your account</h2>
-
-        <div>
-          {user ? (
-            <Button
-              onClick={() => {
-                navigate('/home');
-              }}
-            >
-              Continue as {user.firstName}
-            </Button>
-          ) : (
-            <Button onClick={handleGitHubSignIn}>Sign in with GitHub</Button>
-          )}
-        </div>
-      </div>
+      <PageLayout>
+        <Header />
+        <PageContainer>
+          <ContentContainer>
+            <Logo
+              src="https://avatars.githubusercontent.com/u/4441966?s=200&v=4"
+              alt="Logo"
+            />
+            <Title>Sign in to your account</Title>
+            <div>
+              {user ? (
+                <StyledButton onClick={() => navigate('/home')}>
+                  Continue as {user.firstName}
+                </StyledButton>
+              ) : (
+                <StyledButton onClick={handleGitHubSignIn}>
+                  Sign in with GitHub
+                </StyledButton>
+              )}
+            </div>
+          </ContentContainer>
+        </PageContainer>
+        <Footer />
+      </PageLayout>
     </>
   );
 }
