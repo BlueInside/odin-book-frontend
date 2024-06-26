@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import CreatePost from '../../src/pages/CreatePost';
 import { useAuth } from '../../src/hooks/useAuth';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 
 // Mock modules
 vi.mock('../../src/hooks/useAuth', () => ({
@@ -25,7 +26,11 @@ describe('CreatePost', () => {
   it('renders the form and handles input', async () => {
     const user = userEvent.setup();
 
-    render(<CreatePost />);
+    render(
+      <MemoryRouter>
+        <CreatePost />
+      </MemoryRouter>
+    );
 
     const input = screen.getByLabelText(/content/i);
     const submitButton = screen.getByRole('button', { name: /create post/i });
@@ -60,7 +65,11 @@ describe('CreatePost', () => {
 
   it('displays an error when trying to submit an empty form', async () => {
     const user = userEvent.setup();
-    render(<CreatePost />);
+    render(
+      <MemoryRouter>
+        <CreatePost />
+      </MemoryRouter>
+    );
 
     const submitButton = screen.getByRole('button', { name: /create post/i });
 
