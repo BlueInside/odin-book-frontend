@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-
+import {
+  Container,
+  Form,
+  Label,
+  Input,
+  ErrorMsg,
+  SubmitButton,
+} from '../styles/CreatePostStyles.styles';
 export default function CreatePost() {
   const { user, isLoading } = useAuth();
   const [content, setContent] = useState('');
@@ -46,25 +53,24 @@ export default function CreatePost() {
 
   if (user && !isLoading) {
     return (
-      <div>
-        {error && <p>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="content">Content</label>
-          <input
+      <Container>
+        {error && <ErrorMsg>{error}</ErrorMsg>}
+        <Form onSubmit={handleSubmit}>
+          <Label htmlFor="content">Content</Label>
+          <Input
             type="text"
             id="content"
             name="content"
+            rows={8}
+            cols={25}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
-
-          <div>
-            <button type="submit" disabled={isSubmitting}>
-              Create post
-            </button>
-          </div>
-        </form>
-      </div>
+          <SubmitButton type="submit" disabled={isSubmitting}>
+            Create post
+          </SubmitButton>
+        </Form>
+      </Container>
     );
   }
 }

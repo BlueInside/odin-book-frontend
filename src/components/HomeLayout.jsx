@@ -18,7 +18,7 @@ export default function HomeLayout() {
   return (
     <div>
       <HeaderContainer>
-        <Link to={'https://www.theodinproject.com/'}>
+        <Link to={'http://localhost:5173/'}>
           <Logo src="/src/assets/logo.svg" alt="Odin-Book Logo" />
         </Link>
         <WelcomeMessage>Welcome, {user.firstName}!</WelcomeMessage>
