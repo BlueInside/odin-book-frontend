@@ -4,6 +4,7 @@ import { AuthContext } from '../hooks/useAuth';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost:3000/auth/verify', {
@@ -18,9 +19,11 @@ export const AuthProvider = ({ children }) => {
         } else {
           setUser(null);
         }
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error('Error verifying user:', error);
+        setIsLoading(false);
       });
   }, []);
 
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
