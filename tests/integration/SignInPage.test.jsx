@@ -11,17 +11,17 @@ vi.mock('../../src/hooks/useAuth', () => ({
 
 const routes = [
   {
-    path: '/',
+    path: '/sign',
     element: <SignInPage />,
   },
   {
-    path: '/home',
+    path: '/',
     element: <div>Home page</div>,
   },
 ];
 
 const router = createMemoryRouter(routes, {
-  initialEntries: ['/'],
+  initialEntries: ['/sign'],
   initialIndex: 0,
 });
 
