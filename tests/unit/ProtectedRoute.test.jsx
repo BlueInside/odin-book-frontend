@@ -1,14 +1,11 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ProtectedRoute from '../../src/components/ProtectedRoute';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-
-const mockUseAuth = vi.fn();
+import { useAuth } from '../../src/hooks/useAuth';
 
 // Mock the useAuth hook
-vi.mock('../../src/hooks/useAuth', () => ({
-  useAuth: () => mockUseAuth(),
-}));
+vi.mock('../../src/hooks/useAuth');
 
 const routes = [
   {
@@ -25,29 +22,42 @@ const routes = [
   },
 ];
 
-const router = createMemoryRouter(routes, {
-  initialEntries: ['/home'],
-  initialIndex: 0,
-});
+let router;
 
 describe('ProtectedRoute', () => {
+  beforeEach(() => {
+    router = createMemoryRouter(routes, {
+      initialEntries: ['/home'],
+    });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
 
+  it('should NOT render children when user is NOT authenticated', () => {
+    // Mock the authenticated state
+    useAuth.mockReturnValueOnce({ user: null, isLoading: false });
+    render(<RouterProvider router={router} />);
+
+    expect(screen.getByText(/login first/i)).toBeInTheDocument();
+  });
+
   it('should render children when user is authenticated', () => {
     // Mock the authenticated state
-    mockUseAuth.mockReturnValue({ user: { firstName: 'Karol' } });
+    useAuth.mockReturnValueOnce({
+      user: { firstName: 'Karol', isLoading: false },
+    });
     render(<RouterProvider router={router} />);
 
     expect(screen.getByText(/protected content/i)).toBeInTheDocument();
   });
 
-  it('should NOT render children when user is NOT authenticated', () => {
+  it('should display loading message when data is being loaded', async () => {
     // Mock the authenticated state
-    mockUseAuth.mockReturnValue({ user: null });
+    useAuth.mockReturnValueOnce({ isLoading: true, user: null });
     render(<RouterProvider router={router} />);
 
-    expect(screen.getByText(/login first/i)).toBeInTheDocument();
+    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
   });
 });
