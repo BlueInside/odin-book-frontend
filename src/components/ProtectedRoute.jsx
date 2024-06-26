@@ -3,9 +3,13 @@ import { useAuth } from '../hooks/useAuth';
 import PropTypes from 'prop-types';
 
 export default function ProtectedRoute({ children }) {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if (!user) {
+  if (isLoading) {
+    return <div>Loading...</div>; // Add loading spinner later
+  }
+
+  if (!user && !isLoading) {
     // Redirect to the sign-in page if not authenticated
     return <Navigate to="/" />;
   }
