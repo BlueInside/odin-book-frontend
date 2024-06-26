@@ -9,11 +9,11 @@ vi.mock('../../src/hooks/useAuth');
 
 const routes = [
   {
-    path: '/',
+    path: '/sign',
     element: <div>login first</div>,
   },
   {
-    path: '/home',
+    path: '/',
     element: (
       <ProtectedRoute>
         <div>protected content</div>
@@ -27,7 +27,7 @@ let router;
 describe('ProtectedRoute', () => {
   beforeEach(() => {
     router = createMemoryRouter(routes, {
-      initialEntries: ['/home'],
+      initialEntries: ['/'],
     });
   });
 
