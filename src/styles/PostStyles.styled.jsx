@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const PostContainer = styled.article`
   background: #fff;
@@ -9,6 +10,16 @@ export const PostContainer = styled.article`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
+export const StyledLink = styled(Link)`
+  text-decoration: none; // Removes underline from the link
+  color: inherit; // Inherits color from parent element
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none; // Ensures no underline on hover, focus, or active states
+    color: inherit; // Keeps the color consistent on interaction
+  }
+`;
 export const PostHeader = styled.div`
   display: flex;
   align-items: center;
