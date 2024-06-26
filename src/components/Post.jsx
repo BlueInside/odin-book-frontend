@@ -22,11 +22,11 @@ export default function Post({ post }) {
         <p>{post.content}</p>
       </PostContent>
       <InteractionBar>
-        <IconText $iconType="heart">
+        <IconText $icon="heart">
           <FaHeart size={20} /> {post.likesCount}
         </IconText>
         <IconText>
-          <FaComments size={20} $iconType="comment" /> {post.comments.length}
+          <FaComments size={20} /> {post.comments.length}
         </IconText>
       </InteractionBar>
     </PostContainer>
