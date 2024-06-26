@@ -4,6 +4,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import CreatePost from '../pages/CreatePost';
 import HomeLayout from '../components/HomeLayout';
 import PostList from '../components/PostList';
+import PostDetail from '../pages/PostDetail';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <HomeLayout />,
+    element: (
+      <ProtectedRoute>
+        <HomeLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -25,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'post',
         element: <CreatePost />,
+      },
+      {
+        path: 'post/:postId',
+        element: <PostDetail />,
       },
     ],
   },
