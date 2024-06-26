@@ -41,6 +41,7 @@ export const Input = styled.textarea`
 export const ErrorMsg = styled.p`
   color: red;
   font-size: 0.875em;
+  text-align: center;
 `;
 
 export const SubmitButton = styled.button`
