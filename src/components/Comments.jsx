@@ -18,7 +18,6 @@ export default function Comments({ postId }) {
         );
         if (!response.ok) throw new Error('Failed to fetch comments');
         const data = await response.json();
-        console.log(data);
         setComments(data.comments);
         setError(null);
       } catch (error) {
