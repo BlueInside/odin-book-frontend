@@ -8,8 +8,11 @@ import {
   ErrorMsg,
   SubmitButton,
 } from '../styles/CreatePostStyles.styles';
+import { Navigate, useNavigate } from 'react-router-dom';
 export default function CreatePost() {
   const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
+
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -44,6 +47,7 @@ export default function CreatePost() {
       console.log('Successful request', data.post);
       setContent('');
       setError('');
+      navigate('/');
     } catch (error) {
       setError(error.message);
     } finally {
@@ -53,24 +57,26 @@ export default function CreatePost() {
 
   if (user && !isLoading) {
     return (
-      <Container>
+      <>
         {error && <ErrorMsg>{error}</ErrorMsg>}
-        <Form onSubmit={handleSubmit}>
-          <Label htmlFor="content">Content</Label>
-          <Input
-            type="text"
-            id="content"
-            name="content"
-            rows={8}
-            cols={25}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <SubmitButton type="submit" disabled={isSubmitting}>
-            Create post
-          </SubmitButton>
-        </Form>
-      </Container>
+        <Container>
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="content">Content</Label>
+            <Input
+              type="text"
+              id="content"
+              name="content"
+              rows={8}
+              cols={25}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <SubmitButton type="submit" disabled={isSubmitting}>
+              Create post
+            </SubmitButton>
+          </Form>
+        </Container>
+      </>
     );
   }
 }
