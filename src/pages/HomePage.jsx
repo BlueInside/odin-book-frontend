@@ -1,4 +1,5 @@
 import NavigationBar from '../components/Navbar';
+import PostList from '../components/PostList';
 import { useAuth } from '../hooks/useAuth';
 
 export default function HomePage() {
@@ -7,6 +8,7 @@ export default function HomePage() {
   return (
     <>
       <div>Welcome, {user.firstName}!</div>
+      <PostList />
       <NavigationBar />
     </>
   );
