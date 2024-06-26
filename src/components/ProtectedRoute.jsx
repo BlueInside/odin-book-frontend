@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children }) {
 
   if (!user && !isLoading) {
     // Redirect to the sign-in page if not authenticated
-    return <Navigate to="/" />;
+    return <Navigate to="/sign" />;
   }
 
   return children;
