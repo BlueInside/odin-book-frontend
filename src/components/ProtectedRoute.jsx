@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 export default function ProtectedRoute({ children }) {
   const { user, isLoading } = useAuth();
-
   if (isLoading) {
     return <div>Loading...</div>; // Add loading spinner later
   }
