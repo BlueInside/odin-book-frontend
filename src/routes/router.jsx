@@ -5,11 +5,11 @@ import ProtectedRoute from '../components/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/sign',
     element: <SignInPage />,
   },
   {
-    path: '/home',
+    path: '/',
     element: (
       <ProtectedRoute>
         <HomePage />
