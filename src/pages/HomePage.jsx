@@ -10,7 +10,6 @@ import {
 } from '../styles/HeaderStyles.styled';
 export default function HomePage() {
   const { user } = useAuth();
-
   return (
     <>
       <HeaderContainer>
