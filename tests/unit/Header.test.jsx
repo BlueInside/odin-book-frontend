@@ -13,7 +13,7 @@ describe('Header component', () => {
   it('should render the call to action text', () => {
     render(<Header />);
     expect(
-      screen.getByText(/Connect with friends on Odin-Book./i)
+      screen.getByText(/Thank you for trying out mine app/i)
     ).toBeInTheDocument();
   });
 });
