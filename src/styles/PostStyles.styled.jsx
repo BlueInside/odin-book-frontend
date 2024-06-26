@@ -42,6 +42,6 @@ export const IconText = styled.span`
   }
 
   &:hover svg {
-    color: ${(props) => (props.$iconType === 'heart' ? '#ed4956' : '#0095f6')};
+    color: ${(props) => (props.$icon === 'heart' ? '#ed4956' : '#0095f6')};
   }
 `;
