@@ -32,7 +32,7 @@ export default function SignInPage() {
             <Title>Sign in to your account</Title>
             <div>
               {user ? (
-                <StyledButton onClick={() => navigate('/home')}>
+                <StyledButton onClick={() => navigate('/')}>
                   Continue as {user.firstName}
                 </StyledButton>
               ) : (
