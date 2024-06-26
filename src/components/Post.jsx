@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { FaHeart, FaComments } from 'react-icons/fa';
+
 import {
   PostContainer,
   PostHeader,
@@ -7,6 +8,7 @@ import {
   InteractionBar,
   IconText,
   PostContent,
+  StyledLink,
 } from '../styles/PostStyles.styled';
 export default function Post({ post }) {
   return (
@@ -18,9 +20,12 @@ export default function Post({ post }) {
         />
         <p>{post.author.firstName}</p>
       </PostHeader>
-      <PostContent>
-        <p>{post.content}</p>
-      </PostContent>
+      <StyledLink to={`/post/${post._id}`}>
+        <PostContent>
+          <p>{post.content}</p>
+        </PostContent>
+      </StyledLink>
+
       <InteractionBar>
         <IconText $icon="heart">
           <FaHeart size={20} /> {post.likesCount}
