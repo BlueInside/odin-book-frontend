@@ -1,5 +1,23 @@
 import styled from 'styled-components';
 
+export const HeaderContainer = styled.header`
+  background-color: #4267b2;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Logo = styled.img`
+  height: 50px;
+`;
+
+export const WelcomeMessage = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
 export const StyledHeader = styled.header`
   background-color: #4267b2;
   color: white;
