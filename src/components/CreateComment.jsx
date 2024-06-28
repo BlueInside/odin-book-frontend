@@ -8,6 +8,7 @@ import {
   StyledTextArea,
   SubmitButton,
   ErrorMessage,
+  CharacterCounter,
 } from '../styles/CreateComment.styled';
 
 export default function CreateComment({ postId, addComment }) {
@@ -15,6 +16,9 @@ export default function CreateComment({ postId, addComment }) {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  const maxChars = 500;
+  const charactersRemaining = maxChars - content.length;
 
   const handleCreateComment = async (e) => {
     e.preventDefault();
@@ -24,6 +28,12 @@ export default function CreateComment({ postId, addComment }) {
     try {
       if (content.trim() === '') {
         throw new Error('Post content cannot be empty!');
+      }
+
+      if (content.length > maxChars) {
+        setError('Comment exceeds maximum length of 500 characters');
+        setIsSubmitting(false);
+        return;
       }
 
       const response = await fetch('http://localhost:3000/comments', {
@@ -61,7 +71,11 @@ export default function CreateComment({ postId, addComment }) {
           value={content}
           placeholder="Write a comment..."
           onChange={(e) => setContent(e.target.value)}
+          maxLength={maxChars}
         />
+        <CharacterCounter $charactersRemaining={charactersRemaining}>
+          {charactersRemaining} characters left
+        </CharacterCounter>
         <SubmitButton disabled={isSubmitting}>Add comment</SubmitButton>
       </StyledForm>
     </FormContainer>
