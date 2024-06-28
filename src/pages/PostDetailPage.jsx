@@ -7,15 +7,17 @@ import {
   ProfilePicture,
   Content,
   Stats,
-  NoComments,
 } from '../styles/PostDetailPageStyles.styled';
+import CreateComment from '../components/CreateComment';
 
 export default function PostDetailPage() {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  console.log('POST DETAIL:', post);
   useEffect(() => {
     const fetchPost = async () => {
       setIsLoading(true);
@@ -26,7 +28,12 @@ export default function PostDetailPage() {
         });
         if (!response.ok) throw new Error('Failed to fetch');
         const data = await response.json();
-        setPost(data.post);
+        if (data && data.post && Array.isArray(data.comments)) {
+          setPost(data.post);
+          setComments(data.comments);
+        } else {
+          throw new Error('Invalid data structure');
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -36,6 +43,10 @@ export default function PostDetailPage() {
 
     fetchPost();
   }, [postId]);
+
+  const addCommentToPost = (comment) => {
+    setComments((prevComments) => [...prevComments, comment]);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -54,14 +65,10 @@ export default function PostDetailPage() {
         </Content>
         <Stats>
           <p>Likes: {post.likesCount}</p>
-          <p>Comments: {post.comments.length}</p>
+          <p>Comments: {comments.length}</p>
         </Stats>
-
-        {post.comments.length > 0 ? (
-          <Comments postId={postId} />
-        ) : (
-          <NoComments>No comments yet.</NoComments>
-        )}
+        <Comments comments={comments} />
+        <CreateComment postId={postId} addComment={addCommentToPost} />
       </DetailContainer>
     );
   }
