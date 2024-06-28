@@ -48,6 +48,11 @@ export default function PostDetailPage() {
     setComments((prevComments) => [...prevComments, comment]);
   };
 
+  const deleteCommentFromPost = (commentId) => {
+    const newComments = comments.filter((comment) => comment._id !== commentId);
+    setComments(newComments);
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (post) {
@@ -67,7 +72,11 @@ export default function PostDetailPage() {
           <p>Likes: {post.likesCount}</p>
           <p>Comments: {comments.length}</p>
         </Stats>
-        <Comments comments={comments} />
+        <Comments
+          comments={comments}
+          postId={postId}
+          deleteComment={deleteCommentFromPost}
+        />
         <CreateComment postId={postId} addComment={addCommentToPost} />
       </DetailContainer>
     );
