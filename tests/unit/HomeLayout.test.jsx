@@ -35,7 +35,7 @@ describe('HomeLayout', () => {
     render(<HomeLayout />, { wrapper: MemoryRouter });
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
-      'https://www.theodinproject.com/'
+      'http://localhost:5173/'
     );
   });
 });
