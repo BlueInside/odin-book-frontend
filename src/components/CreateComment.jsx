@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../hooks/useAuth';
+import {
+  FormContainer,
+  StyledForm,
+  StyledLabel,
+  StyledTextArea,
+  SubmitButton,
+  ErrorMessage,
+} from '../styles/CreateComment.styled';
 
 export default function CreateComment({ postId, addComment }) {
   const { user } = useAuth();
@@ -43,25 +51,20 @@ export default function CreateComment({ postId, addComment }) {
   };
 
   return (
-    <>
-      {error && <p>{error}</p>}
-      <div>
-        <form method="POST" onSubmit={handleCreateComment}>
-          <label htmlFor="content">Text:</label>
-          <textarea
-            type="text"
-            id="content"
-            name="content"
-            value={content}
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
-          />
-          <input type="hidden" name="postId" value={postId} />
-          <button disabled={isSubmitting}>Add comment</button>
-        </form>
-      </div>
-    </>
+    <FormContainer>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      <StyledForm onSubmit={handleCreateComment}>
+        <StyledLabel htmlFor="content">Text:</StyledLabel>
+        <StyledTextArea
+          id="content"
+          name="content"
+          value={content}
+          placeholder="Write a comment..."
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <SubmitButton disabled={isSubmitting}>Add comment</SubmitButton>
+      </StyledForm>
+    </FormContainer>
   );
 }
 

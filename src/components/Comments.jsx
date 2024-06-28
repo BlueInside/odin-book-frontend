@@ -1,16 +1,22 @@
 import PropTypes from 'prop-types';
-
+import {
+  CommentsContainer,
+  Comment,
+  CommentText,
+  AuthorName,
+} from '../styles/Comments.styled';
 export default function Comments({ comments }) {
   return (
-    <div>
+    <CommentsContainer>
       {comments.map((comment) => (
-        <div key={comment._id}>
-          <p>
-            {comment.author.firstName}: {comment.content}
-          </p>
-        </div>
+        <Comment key={comment._id}>
+          <CommentText>
+            <AuthorName>{comment.author.firstName}</AuthorName>
+            {comment.content}
+          </CommentText>
+        </Comment>
       ))}
-    </div>
+    </CommentsContainer>
   );
 }
 

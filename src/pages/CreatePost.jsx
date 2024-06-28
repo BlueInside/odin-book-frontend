@@ -7,7 +7,7 @@ import {
   Input,
   ErrorMsg,
   SubmitButton,
-} from '../styles/CreatePostStyles.styles';
+} from '../styles/CreatePostStyles.styled';
 import { useNavigate } from 'react-router-dom';
 export default function CreatePost() {
   const { user, isLoading } = useAuth();
