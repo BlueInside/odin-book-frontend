@@ -62,7 +62,11 @@ describe('Comment list', () => {
 
   it('Should display a loading message when loading', () => {
     usePosts.mockReturnValue({ posts: [], loading: true, error: null });
-    render(<PostList />);
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
@@ -72,13 +76,21 @@ describe('Comment list', () => {
       loading: false,
       error: 'Error fetching posts',
     });
-    render(<PostList />);
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
     expect(screen.getByText('Error...')).toBeInTheDocument();
   });
 
   it('Should display correct content in posts', () => {
     usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
-    render(<PostList />);
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
     const firstPostContent = screen.getByText(postsMock[0].content);
     expect(firstPostContent).toBeInTheDocument();
     expect(screen.getAllByRole('img')[0]).toHaveAttribute(
