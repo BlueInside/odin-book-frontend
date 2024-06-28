@@ -13,6 +13,14 @@ export const StyledForm = styled.form`
   flex-direction: column;
 `;
 
+export const CharacterCounter = styled.div`
+  text-align: right;
+  font-size: 12px;
+  margin-top: 5px;
+  color: ${(props) =>
+    props.$charactersRemaining < 50 ? '#dc3545' : '#6c757d'};
+`;
+
 export const StyledLabel = styled.label`
   border: 0;
   clip: rect(0 0 0 0);
