@@ -4,7 +4,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import CreatePost from '../pages/CreatePost';
 import HomeLayout from '../components/HomeLayout';
 import PostList from '../components/PostList';
-import PostDetail from '../pages/PostDetail';
+import PostDetailPage from '../pages/PostDetailPage';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'post/:postId',
-        element: <PostDetail />,
+        element: <PostDetailPage />,
       },
     ],
   },
