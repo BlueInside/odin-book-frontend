@@ -45,14 +45,28 @@ export const InteractionBar = styled.div`
   color: #606770;
 `;
 
-export const IconText = styled.span`
+export const IconText = styled.button`
   display: inline-flex;
   align-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  color: #606770;
+
   svg {
     margin-right: 5px;
+    color: ${(props) => props.$liked && props.$icon === 'heart' && '#ed4956'};
   }
 
-  &:hover svg {
-    color: ${(props) => (props.$icon === 'heart' ? '#ed4956' : '#0095f6')};
+  &:hover {
+    cursor: pointer;
+    svg {
+      color: ${(props) => (props.$icon === 'heart' ? '#ed4956' : '#0095f6')};
+    }
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
