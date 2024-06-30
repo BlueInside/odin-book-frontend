@@ -12,7 +12,7 @@ import {
   PostContent,
   StyledLink,
 } from '../styles/PostStyles.styled';
-export default function Post({ post, userId, deletePost }) {
+export default function Post({ post, userId, deletePost, handleLikeClick }) {
   const isPostAuthor = userId === post.author._id;
 
   return (
@@ -36,11 +36,18 @@ export default function Post({ post, userId, deletePost }) {
       </StyledLink>
 
       <InteractionBar>
-        <IconText $icon="heart">
-          <FaHeart size={20} /> {post.likesCount}
+        <IconText
+          $liked={post.likedByUser}
+          $icon="heart"
+          onClick={() => handleLikeClick(post._id, post.likedByUser)}
+        >
+          <FaHeart size={20} title={post.likedByUser ? 'Unlike' : 'Like'} />{' '}
+          {post.likesCount}
         </IconText>
         <IconText>
-          <FaComments size={20} /> {post.comments.length}
+          <StyledLink to={`/post/${post._id}`}>
+            <FaComments size={20} /> {post.comments.length}
+          </StyledLink>
         </IconText>
       </InteractionBar>
     </PostContainer>
@@ -51,4 +58,5 @@ Post.propTypes = {
   post: PropTypes.object,
   userId: PropTypes.string.isRequired,
   deletePost: PropTypes.func.isRequired,
+  handleLikeClick: PropTypes.func.isRequired,
 };
