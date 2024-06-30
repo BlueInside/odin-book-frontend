@@ -24,6 +24,7 @@ const postsMock = [
     },
     media: ['media'],
     likesCount: 16,
+    likedByUser: false,
     comments: [],
   },
   {
@@ -36,6 +37,7 @@ const postsMock = [
     },
     media: ['media'],
     likesCount: 6,
+    likedByUser: false,
     comments: [],
   },
   {
@@ -47,6 +49,7 @@ const postsMock = [
     },
     media: ['media'],
     likesCount: 12,
+    likedByUser: false,
     comments: [],
   },
 ];
@@ -241,6 +244,108 @@ describe('Post list', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Incorrect post id')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('Liking a Post', () => {
+  beforeEach(() => {
+    usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
+    fetch.mockClear();
+    useAuth.mockReturnValue({ user: { id: 'id1', firstName: 'karol' } });
+  });
+
+  it('should increase like count optimistically and send POST request', async () => {
+    const user = userEvent.setup();
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ message: 'Like added' }),
+    });
+
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
+
+    const likeButton = screen.getAllByRole('button', { name: /like/i })[0];
+    await user.click(likeButton);
+
+    expect(screen.getByText('17')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/likes`, {
+        credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postId: '1' }),
+      });
+    });
+  });
+
+  it('should handle like error by reverting the like count', async () => {
+    const user = userEvent.setup();
+    fetch.mockRejectedValueOnce(new Error('Failed to update like status'));
+
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
+
+    const likeButton = screen.getAllByRole('button', { name: /like/i })[0];
+    await user.click(likeButton);
+
+    // Check if like count is reverted after error
+    expect(screen.getByText('16')).toBeInTheDocument(); // Assuming initial count was 16
+    await waitFor(() => {
+      expect(
+        screen.getByText('Failed to update like status')
+      ).toBeInTheDocument();
+    });
+  });
+  it('should decrease like count optimistically and send DELETE request', async () => {
+    const postsMock = [
+      {
+        _id: '1',
+        content: 'test content',
+        author: {
+          _id: 'id1',
+          firstName: 'author1',
+          profilePicture: 'someUrl',
+        },
+        media: ['media'],
+        likesCount: 16,
+        likedByUser: true,
+        comments: [],
+      },
+    ];
+    usePosts.mockReturnValue({ posts: postsMock });
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ message: 'Like removed' }),
+    });
+
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
+
+    // Assume the post was initially liked by the user
+    const unlikeButton = screen.getAllByRole('button', { name: /unlike/i })[0];
+    await user.click(unlikeButton);
+
+    // Check if like count was optimistically updated
+    expect(screen.getByText('15')).toBeInTheDocument(); // Assuming initial count was 16
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/likes`, {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postId: '1' }),
+      });
     });
   });
 });
