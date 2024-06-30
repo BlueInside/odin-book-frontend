@@ -17,12 +17,11 @@ export default function PostList() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error...</div>;
 
-  const deletePost = (postId) => {
-    const newPosts = posts.filter((post) => post._id !== postId);
-    setDisplayedPosts(newPosts);
-  };
-
   const handleDeletePost = async (postId) => {
+    const originalPosts = [...displayedPosts];
+    const newPosts = displayedPosts.filter((post) => post._id !== postId);
+    setDisplayedPosts(newPosts); // Optimistic update
+
     setDeletePostError(null);
     try {
       const response = await fetch(`http://localhost:3000/posts/${postId}`, {
@@ -34,11 +33,8 @@ export default function PostList() {
       });
       if (response.status === 400) throw new Error('Incorrect post id');
       if (!response.ok) throw new Error('Failed to delete post');
-      const data = await response.json();
-      if (data) {
-        deletePost(postId);
-      }
     } catch (error) {
+      setDisplayedPosts(originalPosts); // Rollback
       setDeletePostError(error.message);
     }
   };
