@@ -52,11 +52,11 @@ describe('ProfileInfo component', () => {
 
     expect(screen.getByRole('img', { name: 'John Doe' })).toHaveAttribute(
       'src',
-      '#'
+      'https://res.cloudinary.com/dhjzutfu9/image/upload/v1719395403/odin-project/avatar_owpfg7.webp'
     );
     expect(screen.getByRole('img', { name: 'Cover' })).toHaveAttribute(
       'src',
-      '#'
+      'https://res.cloudinary.com/dhjzutfu9/image/upload/v1720300583/odin-project/default-bgImage_xcqvih.webp'
     );
   });
 
