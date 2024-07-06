@@ -5,7 +5,7 @@ import CreatePost from '../pages/CreatePost';
 import HomeLayout from '../components/HomeLayout';
 import PostList from '../components/PostList';
 import PostDetailPage from '../pages/PostDetailPage';
-
+import ProfilePage from '../pages/ProfilePage';
 const router = createBrowserRouter([
   {
     path: '/sign',
@@ -29,11 +29,27 @@ const router = createBrowserRouter([
       },
       {
         path: 'post',
-        element: <CreatePost />,
+        element: (
+          <ProtectedRoute>
+            <CreatePost />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'post/:postId',
-        element: <PostDetailPage />,
+        element: (
+          <ProtectedRoute>
+            <PostDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'profile/:userId',
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
