@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { FaUser, FaUsers, FaPlusSquare } from 'react-icons/fa';
 import styled from 'styled-components';
+import { useAuth } from '../hooks/useAuth';
 
 const Navbar = styled.nav`
   position: fixed;
@@ -31,9 +32,11 @@ const Link = styled(NavLink)`
 `;
 
 export default function NavigationBar() {
+  const { user } = useAuth();
+
   return (
     <Navbar>
-      <Link to="/profile">
+      <Link to={`/profile/${user.id}`}>
         <FaUser size={30} />
       </Link>
       <Link to="/users">
