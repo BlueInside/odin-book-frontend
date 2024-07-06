@@ -21,8 +21,10 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
   } = userDetails;
 
   // Default images
-  const defaultProfilePic = '#';
-  const defaultCoverPhoto = '#';
+  const defaultProfilePic =
+    'https://res.cloudinary.com/dhjzutfu9/image/upload/v1719395403/odin-project/avatar_owpfg7.webp';
+  const defaultCoverPhoto =
+    'https://res.cloudinary.com/dhjzutfu9/image/upload/v1720300583/odin-project/default-bgImage_xcqvih.webp';
 
   const handleFollow = () => {
     console.log('Follow user', _id);
