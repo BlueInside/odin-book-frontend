@@ -17,6 +17,7 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
     bio,
     birthday,
     dateJoined,
+    isFollowedByCurrentUser,
   } = userDetails;
 
   // Default images
@@ -26,6 +27,11 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
   const handleFollow = () => {
     console.log('Follow user', _id);
   };
+
+  const handleUnfollow = () => {
+    console.log('Unfollow user: ', _id);
+  };
+
   return (
     <div>
       <div>
@@ -46,9 +52,13 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
         {birthday && <p>Birthday: {format(new Date(birthday), 'd MMM yyy')}</p>}
         <p>Joined: {format(new Date(dateJoined), 'd MMM yyy')}</p>
         {/* Show follow button only if current user is not the profile owner */}
-        {currentUserId && userDetails._id !== currentUserId && (
-          <button onClick={handleFollow}>Follow</button>
-        )}
+        {currentUserId &&
+          userDetails._id !== currentUserId &&
+          (isFollowedByCurrentUser ? (
+            <button onClick={handleUnfollow}>Unfollow</button>
+          ) : (
+            <button onClick={handleFollow}>Follow</button>
+          ))}
       </div>
     </div>
   );
@@ -57,6 +67,7 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
 ProfileInfo.propTypes = {
   userDetails: PropTypes.shape({
     _id: PropTypes.string.isRequired,
+    isFollowedByCurrentUser: PropTypes.bool.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string,
     email: PropTypes.string,
