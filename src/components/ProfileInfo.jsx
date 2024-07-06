@@ -1,6 +1,15 @@
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-
+import {
+  Container,
+  Cover,
+  ProfileDetails,
+  ProfilePic,
+  StyledButton,
+  Title,
+  Text,
+  HighlightText,
+} from '../styles/ProfileInfoStyles.styled';
 export default function ProfileInfo({ userDetails, currentUserId }) {
   if (!userDetails) {
     return <div>No user details available.</div>;
@@ -35,34 +44,36 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
   };
 
   return (
-    <div>
-      <div>
+    <Container>
+      <Cover>
         <img src={coverPhoto || defaultCoverPhoto} alt="Cover" />
-      </div>
-
-      <div>
-        <img
+      </Cover>
+      <ProfileDetails>
+        <ProfilePic
           src={profilePicture || defaultProfilePic}
-          alt={firstName + ' ' + lastName}
+          alt={`${firstName} ${lastName}`}
         />
-        <h1>
+        <Title>
           {firstName} {lastName}
-        </h1>
-        {email && <p>Email: {email}</p>}
-        {relationship && <p>Relationship Status: {relationship}</p>}
-        {bio && <p>Bio: {bio}</p>}
-        {birthday && <p>Birthday: {format(new Date(birthday), 'd MMM yyy')}</p>}
-        <p>Joined: {format(new Date(dateJoined), 'd MMM yyy')}</p>
-        {/* Show follow button only if current user is not the profile owner */}
+        </Title>
+        {email && <Text>Email: {email}</Text>}
+        {relationship && (
+          <HighlightText>Relationship Status: {relationship}</HighlightText>
+        )}
+        {bio && <Text>Bio: {bio}</Text>}
+        {birthday && (
+          <Text>Birthday: {format(new Date(birthday), 'd MMM yyy')}</Text>
+        )}
+        <Text>Joined: {format(new Date(dateJoined), 'd MMM yyy')}</Text>
         {currentUserId &&
           userDetails._id !== currentUserId &&
           (isFollowedByCurrentUser ? (
-            <button onClick={handleUnfollow}>Unfollow</button>
+            <StyledButton onClick={handleUnfollow}>Unfollow</StyledButton>
           ) : (
-            <button onClick={handleFollow}>Follow</button>
+            <StyledButton onClick={handleFollow}>Follow</StyledButton>
           ))}
-      </div>
-    </div>
+      </ProfileDetails>
+    </Container>
   );
 }
 
