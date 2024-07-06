@@ -7,6 +7,8 @@ describe('ProfileInfo component', () => {
   it('renders user details correctly', () => {
     const userDetails = {
       _id: 'someId',
+      isFollowedByCurrentUser: false,
+
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -39,6 +41,8 @@ describe('ProfileInfo component', () => {
   it('uses default images when images are not provided', () => {
     const userDetails = {
       _id: 'id1',
+      isFollowedByCurrentUser: false,
+
       firstName: 'John',
       lastName: 'Doe',
       dateJoined: '2020-01-01',
@@ -59,6 +63,8 @@ describe('ProfileInfo component', () => {
   it('does not render optional fields when they are not provided', () => {
     const userDetails = {
       _id: 'id1',
+      isFollowedByCurrentUser: false,
+
       firstName: 'John',
       lastName: 'Doe',
       dateJoined: '2020-01-01',
@@ -81,6 +87,7 @@ describe('ProfileInfo component', () => {
 describe('ProfileInfo follow button', () => {
   const userDetails = {
     _id: 'user123',
+    isFollowedByCurrentUser: false,
     firstName: 'Jane',
     lastName: 'Doe',
     email: 'jane.doe@example.com',
@@ -102,6 +109,38 @@ describe('ProfileInfo follow button', () => {
     render(<ProfileInfo userDetails={userDetails} currentUserId="user456" />);
     const followButton = screen.getByText('Follow');
     expect(followButton).toBeInTheDocument();
+  });
+
+  it('shows Unfollow button when isFollowedByCurrentUser is true', async () => {
+    const userDetails = {
+      _id: 'user123',
+      isFollowedByCurrentUser: true,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane.doe@example.com',
+      profilePicture: 'https://example.com/profile.jpg',
+      coverPhoto: 'https://example.com/cover.jpg',
+      relationship: 'Complicated',
+      bio: 'Here is a bio',
+      birthday: '1980-01-01',
+      dateJoined: '2020-01-01',
+    };
+
+    const user = userEvent.setup();
+    const consoleSpy = vi.spyOn(console, 'log');
+
+    render(
+      <ProfileInfo
+        userDetails={{ ...userDetails, isFollowedByCurrentUser: true }}
+        currentUserId="user456"
+      />
+    );
+    const unfollowButton = screen.getByText('Unfollow');
+    expect(unfollowButton).toBeInTheDocument();
+    await user.click(unfollowButton);
+    // Assuming you have a spy on console.log
+    expect(console.log).toHaveBeenCalledWith('Unfollow user: ', 'user123');
+    consoleSpy.mockRestore();
   });
 
   it('calls the follow function when the follow button is clicked', async () => {
