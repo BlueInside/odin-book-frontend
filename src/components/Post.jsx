@@ -18,11 +18,15 @@ export default function Post({ post, userId, deletePost, handleLikeClick }) {
   return (
     <PostContainer>
       <PostHeader>
-        <ProfilePic
-          src={post.author.profilePicture}
-          alt={`${post.author.firstName}'s avatar`}
-        />
-        <p>{post.author.firstName}</p>
+        <StyledLink to={`profile/${post.author._id}`}>
+          <ProfilePic
+            src={post.author.profilePicture}
+            alt={`${post.author.firstName}'s avatar`}
+          />
+        </StyledLink>
+        <StyledLink to={`profile/${post.author._id}`}>
+          <p>{post.author.firstName}</p>
+        </StyledLink>
         {isPostAuthor && (
           <DeleteButton onClick={() => deletePost(post._id)}>
             <MdDelete title="Delete post" />
