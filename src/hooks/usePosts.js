@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-export default function usePosts() {
+export default function usePosts(apiUrl) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:3000/posts', {
+    fetch(apiUrl, {
       method: 'GET',
       credentials: 'include',
     })
       .then((response) => response.json())
       .then((data) => {
-        setPosts(data.posts);
+        setPosts(data.posts || []);
         setLoading(false);
       })
       .catch((error) => {
@@ -21,7 +21,7 @@ export default function usePosts() {
         setError(error);
         setLoading(false);
       });
-  }, []);
+  }, [apiUrl]);
 
   return { posts, loading, error };
 }
