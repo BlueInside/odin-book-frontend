@@ -74,6 +74,19 @@ describe('Post list', () => {
     expect(posts).toHaveLength(3);
   });
 
+  it('Should message when user has no posts', () => {
+    usePosts.mockReturnValue({ posts: [] });
+    render(
+      <MemoryRouter>
+        <PostList />
+      </MemoryRouter>
+    );
+
+    const posts = screen.getByText(/User has not posted anything yet./i);
+
+    expect(posts).toBeInTheDocument();
+  });
+
   it('Should display a loading message when loading', () => {
     usePosts.mockReturnValue({
       posts: [],
