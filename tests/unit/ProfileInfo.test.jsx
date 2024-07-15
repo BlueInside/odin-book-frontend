@@ -15,7 +15,7 @@ describe('ProfileInfo component', () => {
       profilePicture: 'https://example.com/profile.jpg',
       coverPhoto: 'https://example.com/cover.jpg',
       relationship: 'Single',
-      bio: 'Developer at OpenAI',
+      bio: 'Developer at somewhere',
       birthday: '1990-04-30',
       dateJoined: '2020-01-01',
     };
@@ -25,7 +25,7 @@ describe('ProfileInfo component', () => {
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Email: john.doe@example.com')).toBeInTheDocument();
     expect(screen.getByText('Relationship Status: Single')).toBeInTheDocument();
-    expect(screen.getByText('Bio: Developer at OpenAI')).toBeInTheDocument();
+    expect(screen.getByText('Bio: Developer at somewhere')).toBeInTheDocument();
     expect(screen.getByText('Birthday: 30 Apr 1990')).toBeInTheDocument();
     expect(screen.getByText('Joined: 1 Jan 2020')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'John Doe' })).toHaveAttribute(
@@ -138,7 +138,6 @@ describe('ProfileInfo follow button', () => {
     const unfollowButton = screen.getByText('Unfollow');
     expect(unfollowButton).toBeInTheDocument();
     await user.click(unfollowButton);
-    // Assuming you have a spy on console.log
     expect(console.log).toHaveBeenCalledWith('Unfollow user: ', 'user123');
     consoleSpy.mockRestore();
   });
