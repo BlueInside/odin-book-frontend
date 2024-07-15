@@ -18,13 +18,13 @@ export default function Post({ post, userId, deletePost, handleLikeClick }) {
   return (
     <PostContainer>
       <PostHeader>
-        <StyledLink to={`profile/${post.author._id}`}>
+        <StyledLink to={`/profile/${post.author._id}`}>
           <ProfilePic
             src={post.author.profilePicture}
             alt={`${post.author.firstName}'s avatar`}
           />
         </StyledLink>
-        <StyledLink to={`profile/${post.author._id}`}>
+        <StyledLink to={`/profile/${post.author._id}`}>
           <p>{post.author.firstName}</p>
         </StyledLink>
         {isPostAuthor && (
