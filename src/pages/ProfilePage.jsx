@@ -1,40 +1,41 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useParams } from 'react-router-dom';
-import fetchProfileData from '../utilities/fetchProfileData';
 import ProfileInfo from '../components/ProfileInfo';
-import DisplayUserPosts from '../components/DisplayUserPosts';
+import PostList from '../components/PostList';
 
 export default function ProfilePage() {
   const { user } = useAuth();
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (userId) {
-      setIsLoading(true);
-      fetchProfileData(userId)
-        .then((data) => {
-          setUserData(data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setError(error.message || 'Failed to fetch data');
-          setIsLoading(false);
-        });
-    }
+    setLoading(true);
+    fetch(`http://localhost:3000/users/${userId}`, {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUserData(data.user);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
   }, [userId]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error...</div>;
   if (!userData) return <div>No user data available.</div>;
 
   return (
     <div>
-      <ProfileInfo userDetails={userData.userDetails} currentUserId={user.id} />
-      <DisplayUserPosts posts={userData.posts} />
+      <ProfileInfo userDetails={userData} currentUserId={user.id} />
+      <PostList apiUrl={`http://localhost:3000/users/${userId}/posts`} />
     </div>
   );
 }
