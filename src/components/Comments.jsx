@@ -8,9 +8,11 @@ import {
   AuthorName,
   DeleteButton,
   ErrorMessage,
+  StyledLink,
 } from '../styles/Comments.styled';
 import { useAuth } from '../hooks/useAuth';
 import { useState } from 'react';
+
 export default function Comments({ comments, postId, deleteComment }) {
   const { user } = useAuth();
   const [error, setError] = useState(null);
@@ -42,7 +44,9 @@ export default function Comments({ comments, postId, deleteComment }) {
       {comments.map((comment) => (
         <Comment key={comment._id}>
           <CommentText>
-            <AuthorName>{comment.author.firstName}</AuthorName>
+            <StyledLink to={`/profile/${comment.author._id}`}>
+              <AuthorName>{comment.author.firstName}</AuthorName>
+            </StyledLink>
             {comment.content}
           </CommentText>
           {user.id === comment.author.id && (
