@@ -1,5 +1,14 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+export const StyledLink = styled(Link)`
+  cursor: pointer;
+  text-decoration: none;
+  color: #343a40;
+  &:active {
+    outline: 0;
+  }
+`;
 export const CommentsContainer = styled.div`
   margin-top: 10px;
   padding: 10px;
