@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useParams } from 'react-router-dom';
 import ProfileInfo from '../components/ProfileInfo';
-import PostList from '../components/PostList';
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -39,7 +38,6 @@ export default function ProfilePage() {
         currentUserId={user.id}
         setUserDetails={setUserData}
       />
-      <PostList apiUrl={`http://localhost:3000/users/${userId}/posts`} />
     </div>
   );
 }
