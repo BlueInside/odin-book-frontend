@@ -34,7 +34,11 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <ProfileInfo userDetails={userData} currentUserId={user.id} />
+      <ProfileInfo
+        userDetails={userData}
+        currentUserId={user.id}
+        setUserDetails={setUserData}
+      />
       <PostList apiUrl={`http://localhost:3000/users/${userId}/posts`} />
     </div>
   );
