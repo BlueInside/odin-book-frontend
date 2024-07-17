@@ -15,11 +15,14 @@ import {
 } from '../styles/ProfileInfoStyles.styled';
 import { useEffect, useState } from 'react';
 import EditProfileForm from './EditProfileForm';
+import PostList from './PostList';
+import { useParams } from 'react-router-dom';
 export default function ProfileInfo({
   userDetails,
   currentUserId,
   setUserDetails,
 }) {
+  const { userId } = useParams();
   const [successMessage, setSuccessMessage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -82,46 +85,50 @@ export default function ProfileInfo({
     );
 
   return (
-    <Container>
-      {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
-      <Cover>
-        <img src={coverPhoto || defaultCoverPhoto} alt="Cover" />
-      </Cover>
-      <ProfileDetails>
-        <ProfilePic
-          src={profilePicture || defaultProfilePic}
-          alt={`${firstName} ${lastName}`}
-        />
-        <Title>
-          {firstName} {lastName}
-        </Title>
-        {email && <Text>Email: {email}</Text>}
-        {relationship && (
-          <HighlightText>Relationship Status: {relationship}</HighlightText>
-        )}
-        {bio && <Text>Bio: {bio}</Text>}
-        {birthday && (
-          <Text>Birthday: {format(new Date(birthday), 'd MMM yyy')}</Text>
-        )}
-        <Text>Joined: {format(new Date(dateJoined), 'd MMM yyy')}</Text>
-        {currentUserId &&
-          userDetails._id !== currentUserId &&
-          (isFollowedByCurrentUser ? (
-            <StyledButton onClick={handleUnfollow}>Unfollow</StyledButton>
-          ) : (
-            <StyledButton onClick={handleFollow}>Follow</StyledButton>
-          ))}
-        {_id === currentUserId && (
-          <EditButton
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          >
-            <FiEdit /> Edit
-          </EditButton>
-        )}
-      </ProfileDetails>
-    </Container>
+    <div>
+      <Container>
+        {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
+        <Cover>
+          <img src={coverPhoto || defaultCoverPhoto} alt="Cover" />
+        </Cover>
+        <ProfileDetails>
+          <ProfilePic
+            src={profilePicture || defaultProfilePic}
+            alt={`${firstName} ${lastName}`}
+          />
+          <Title>
+            {firstName} {lastName}
+          </Title>
+          {email && <Text>Email: {email}</Text>}
+          {relationship && (
+            <HighlightText>Relationship Status: {relationship}</HighlightText>
+          )}
+          {bio && <Text>Bio: {bio}</Text>}
+          {birthday && (
+            <Text>Birthday: {format(new Date(birthday), 'd MMM yyy')}</Text>
+          )}
+          <Text>Joined: {format(new Date(dateJoined), 'd MMM yyy')}</Text>
+          {currentUserId &&
+            userDetails._id !== currentUserId &&
+            (isFollowedByCurrentUser ? (
+              <StyledButton onClick={handleUnfollow}>Unfollow</StyledButton>
+            ) : (
+              <StyledButton onClick={handleFollow}>Follow</StyledButton>
+            ))}
+          {_id === currentUserId && (
+            <EditButton
+              onClick={() => {
+                setIsEditing(true);
+              }}
+            >
+              <FiEdit /> Edit
+            </EditButton>
+          )}
+        </ProfileDetails>
+      </Container>
+
+      <PostList apiUrl={`http://localhost:3000/users/${userId}/posts`} />
+    </div>
   );
 }
 
