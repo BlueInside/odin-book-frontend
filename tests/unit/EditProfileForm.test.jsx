@@ -18,17 +18,28 @@ describe('EditProfileForm', () => {
     dateJoined: '2020-01-01',
   };
 
+  globalThis.fetch = vi.fn();
+
   const mockOnSave = vi.fn();
   const mockCloseForm = vi.fn();
 
   beforeEach(() => {
     mockOnSave.mockReset();
+    fetch.mockClear();
   });
 
   it('fills and submits the form with new data including file upload', async () => {
     const user = userEvent.setup();
+    fetch.mockReturnValueOnce({
+      ok: true,
+      json: () => ({ user: mockUserDetails }),
+    });
     render(
-      <EditProfileForm userDetails={mockUserDetails} onSave={mockOnSave} />
+      <EditProfileForm
+        closeEditForm={mockCloseForm}
+        userDetails={mockUserDetails}
+        onSave={mockOnSave}
+      />
     );
 
     const firstNameInput = screen.getByLabelText(/first name/i);
@@ -52,12 +63,17 @@ describe('EditProfileForm', () => {
     await waitFor(() => {
       expect(mockOnSave).toHaveBeenCalled();
     });
-    expect(mockOnSave).toHaveBeenCalledWith(expect.any(FormData)); // Ensure FormData was used
+    expect(mockOnSave).toHaveBeenCalledWith(mockUserDetails);
+    expect(mockUserDetails).toHaveProperty('isFollowedByCurrentUser');
   });
 
   it('displays the initial user data correctly', () => {
     render(
-      <EditProfileForm userDetails={mockUserDetails} onSave={mockOnSave} />
+      <EditProfileForm
+        closeEditForm={mockCloseForm}
+        userDetails={mockUserDetails}
+        onSave={mockOnSave}
+      />
     );
 
     expect(screen.getByLabelText('First Name:').value).toBe('John');
@@ -67,7 +83,11 @@ describe('EditProfileForm', () => {
   it('validates required fields', async () => {
     const user = userEvent.setup();
     render(
-      <EditProfileForm userDetails={mockUserDetails} onSave={mockOnSave} />
+      <EditProfileForm
+        closeEditForm={mockCloseForm}
+        userDetails={mockUserDetails}
+        onSave={mockOnSave}
+      />
     );
 
     const firstNameInput = screen.getByLabelText('First Name:');
@@ -86,13 +106,40 @@ describe('EditProfileForm', () => {
     const user = userEvent.setup();
     render(
       <EditProfileForm
+        closeEditForm={mockCloseForm}
+        userDetails={mockUserDetails}
+        onSave={mockOnSave}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(mockCloseForm).toHaveBeenCalled();
+  });
+
+  it('handles server errors during form submission', async () => {
+    const user = userEvent.setup();
+    render(
+      <EditProfileForm
         userDetails={mockUserDetails}
         onSave={mockOnSave}
         closeEditForm={mockCloseForm}
       />
     );
 
-    await user.click(screen.getByRole('button', { name: /cancel/i }));
-    expect(mockCloseForm).toHaveBeenCalled();
+    const submitButton = screen.getByRole('button', { name: 'Save Changes' });
+
+    // Mock fetch to simulate a server error
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () => Promise.resolve({ error: 'Internal server error' }),
+      status: 500,
+    });
+
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      // Check that the error message from the server is displayed
+      expect(screen.getByText('Internal server error')).toBeInTheDocument();
+    });
   });
 });
