@@ -9,6 +9,10 @@ vi.mock('../../src/components/EditProfileForm', () => ({
   default: () => <div>Edit form</div>,
 }));
 
+vi.mock('../../src/components/PostList', () => ({
+  default: () => <div>Post list</div>,
+}));
+
 describe('ProfileInfo component', () => {
   it('renders user details correctly', () => {
     const userDetails = {
