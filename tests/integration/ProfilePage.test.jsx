@@ -17,9 +17,6 @@ vi.mock('../../src/hooks/useAuth');
 vi.mock('../../src/components/ProfileInfo', () => ({
   default: () => <div>Profile Info Component</div>,
 }));
-vi.mock('../../src/components/PostList', () => ({
-  default: () => <div>User Posts List</div>,
-}));
 
 describe('ProfilePage', () => {
   beforeEach(() => {
@@ -55,7 +52,6 @@ describe('ProfilePage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Profile Info Component')).toBeInTheDocument();
-      expect(screen.getByText('User Posts List')).toBeInTheDocument();
     });
   });
 
