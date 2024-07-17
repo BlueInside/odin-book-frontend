@@ -2,12 +2,13 @@ import styled from 'styled-components';
 
 export const FormContainer = styled.div`
   background-color: #fff;
-  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
+  padding: 5px;
   max-width: 800px;
   width: 100%;
+  margin-bottom: 60px;
 `;
 
 export const StyledForm = styled.form`
@@ -23,21 +24,18 @@ export const FormLabel = styled.label`
 `;
 
 export const StyledInput = styled.input`
-  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
 
 export const StyledSelect = styled.select`
-  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
 
 export const StyledTextArea = styled.textarea`
-  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
