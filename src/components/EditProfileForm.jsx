@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export default function EditProfileForm({
@@ -19,6 +19,15 @@ export default function EditProfileForm({
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   const handleChange = (e) => {
     setError(null);
@@ -47,6 +56,7 @@ export default function EditProfileForm({
     Object.keys(formData).forEach((key) => {
       data.append(key, formData[key]);
     });
+
     if (profilePicture) {
       data.append('profilePicture', profilePicture);
     }
