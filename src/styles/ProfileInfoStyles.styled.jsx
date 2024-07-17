@@ -1,5 +1,34 @@
 import styled from 'styled-components';
 
+export const EditButton = styled.button`
+  background-color: #1877f2; // Facebook blue
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  gap: 5px; // Space between icon and text
+
+  &:hover {
+    background-color: #165fe2;
+  }
+`;
+
+export const SuccessMessage = styled.div`
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 5px;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
 export const Container = styled.div`
   font-family: Arial, sans-serif;
 `;
@@ -20,10 +49,13 @@ export const Cover = styled.div`
 `;
 
 export const ProfileDetails = styled.div`
+  display: flex;
   text-align: center;
   padding: 20px;
   position: relative;
   background: white;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const ProfilePic = styled.img`
