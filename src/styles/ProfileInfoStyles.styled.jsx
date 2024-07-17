@@ -109,7 +109,7 @@ export const ProfileSection = styled.div`
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  margin-top: -50px; // Adjust as needed based on your layout
+  margin-top: -50px;
   position: relative;
-  z-index: 2; // Make sure it's above any other overlapping elements
+  z-index: 2;
 `;
