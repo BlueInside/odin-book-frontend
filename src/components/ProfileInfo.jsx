@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { FiEdit } from 'react-icons/fi';
 import {
   Container,
   Cover,
@@ -9,6 +10,8 @@ import {
   Title,
   Text,
   HighlightText,
+  SuccessMessage,
+  EditButton,
 } from '../styles/ProfileInfoStyles.styled';
 import { useEffect, useState } from 'react';
 import EditProfileForm from './EditProfileForm';
@@ -80,16 +83,7 @@ export default function ProfileInfo({
 
   return (
     <Container>
-      {successMessage && <p>{successMessage}</p>}
-      {!isEditing && _id === currentUserId && (
-        <button
-          onClick={() => {
-            setIsEditing(!isEditing);
-          }}
-        >
-          Edit
-        </button>
-      )}
+      {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
       <Cover>
         <img src={coverPhoto || defaultCoverPhoto} alt="Cover" />
       </Cover>
@@ -117,6 +111,15 @@ export default function ProfileInfo({
           ) : (
             <StyledButton onClick={handleFollow}>Follow</StyledButton>
           ))}
+        {_id === currentUserId && (
+          <EditButton
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            <FiEdit /> Edit
+          </EditButton>
+        )}
       </ProfileDetails>
     </Container>
   );
