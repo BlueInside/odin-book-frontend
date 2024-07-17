@@ -10,7 +10,45 @@ import {
   Text,
   HighlightText,
 } from '../styles/ProfileInfoStyles.styled';
-export default function ProfileInfo({ userDetails, currentUserId }) {
+import { useEffect, useState } from 'react';
+import EditProfileForm from './EditProfileForm';
+export default function ProfileInfo({
+  userDetails,
+  currentUserId,
+  setUserDetails,
+}) {
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+
+  // Default images
+  const defaultProfilePic =
+    'https://res.cloudinary.com/dhjzutfu9/image/upload/v1719395403/odin-project/avatar_owpfg7.webp';
+  const defaultCoverPhoto =
+    'https://res.cloudinary.com/dhjzutfu9/image/upload/v1720300583/odin-project/default-bgImage_xcqvih.webp';
+
+  const handleFollow = () => {
+    console.log('Follow user', _id);
+  };
+
+  const handleUnfollow = () => {
+    console.log('Unfollow user: ', _id);
+  };
+
+  const onSave = (updatedUserDetails) => {
+    setUserDetails(updatedUserDetails);
+    setSuccessMessage('User details updated!');
+    setIsEditing(false);
+  };
+
   if (!userDetails) {
     return <div>No user details available.</div>;
   }
@@ -29,22 +67,29 @@ export default function ProfileInfo({ userDetails, currentUserId }) {
     isFollowedByCurrentUser,
   } = userDetails;
 
-  // Default images
-  const defaultProfilePic =
-    'https://res.cloudinary.com/dhjzutfu9/image/upload/v1719395403/odin-project/avatar_owpfg7.webp';
-  const defaultCoverPhoto =
-    'https://res.cloudinary.com/dhjzutfu9/image/upload/v1720300583/odin-project/default-bgImage_xcqvih.webp';
-
-  const handleFollow = () => {
-    console.log('Follow user', _id);
-  };
-
-  const handleUnfollow = () => {
-    console.log('Unfollow user: ', _id);
-  };
+  if (isEditing)
+    return (
+      <EditProfileForm
+        userDetails={userDetails}
+        onSave={onSave}
+        closeEditForm={() => {
+          setIsEditing(false);
+        }}
+      />
+    );
 
   return (
     <Container>
+      {successMessage && <p>{successMessage}</p>}
+      {!isEditing && _id === currentUserId && (
+        <button
+          onClick={() => {
+            setIsEditing(!isEditing);
+          }}
+        >
+          Edit
+        </button>
+      )}
       <Cover>
         <img src={coverPhoto || defaultCoverPhoto} alt="Cover" />
       </Cover>
@@ -92,4 +137,5 @@ ProfileInfo.propTypes = {
     dateJoined: PropTypes.string.isRequired,
   }).isRequired,
   currentUserId: PropTypes.string.isRequired,
+  setUserDetails: PropTypes.func.isRequired,
 };
