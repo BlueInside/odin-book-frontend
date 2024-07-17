@@ -1,12 +1,18 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import ProfileInfo from '../../src/components/ProfileInfo';
 import userEvent from '@testing-library/user-event';
 
+const mockSetUserDetails = vi.fn();
+
+vi.mock('../../src/components/EditProfileForm', () => ({
+  default: () => <div>Edit form</div>,
+}));
+
 describe('ProfileInfo component', () => {
   it('renders user details correctly', () => {
     const userDetails = {
-      _id: 'someId',
+      _id: 'userId',
       isFollowedByCurrentUser: false,
 
       firstName: 'John',
@@ -20,7 +26,13 @@ describe('ProfileInfo component', () => {
       dateJoined: '2020-01-01',
     };
 
-    render(<ProfileInfo userDetails={userDetails} currentUserId="userId" />);
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="userId"
+      />
+    );
 
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Email: john.doe@example.com')).toBeInTheDocument();
@@ -48,7 +60,13 @@ describe('ProfileInfo component', () => {
       dateJoined: '2020-01-01',
     };
 
-    render(<ProfileInfo userDetails={userDetails} currentUserId="userId" />);
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="userId"
+      />
+    );
 
     expect(screen.getByRole('img', { name: 'John Doe' })).toHaveAttribute(
       'src',
@@ -70,7 +88,13 @@ describe('ProfileInfo component', () => {
       dateJoined: '2020-01-01',
     };
 
-    render(<ProfileInfo userDetails={userDetails} currentUserId="userId" />);
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="userId"
+      />
+    );
 
     expect(screen.queryByText('Email:')).not.toBeInTheDocument();
     expect(screen.queryByText('Relationship Status:')).not.toBeInTheDocument();
@@ -78,7 +102,13 @@ describe('ProfileInfo component', () => {
   });
 
   it('returns message when userDetails is not available', () => {
-    render(<ProfileInfo userDetails={null} currentUserId="userId" />);
+    render(
+      <ProfileInfo
+        userDetails={null}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="userId"
+      />
+    );
 
     expect(screen.getByText(/No user details available./i)).toBeInTheDocument();
   });
@@ -100,13 +130,25 @@ describe('ProfileInfo follow button', () => {
   };
 
   it('does not show follow button when currentUserId matches userDetails _id', () => {
-    render(<ProfileInfo userDetails={userDetails} currentUserId="user123" />);
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="user123"
+      />
+    );
     const followButton = screen.queryByText('Follow');
     expect(followButton).not.toBeInTheDocument();
   });
 
   it('shows follow button when currentUserId does not match userDetails _id', () => {
-    render(<ProfileInfo userDetails={userDetails} currentUserId="user456" />);
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="user456"
+      />
+    );
     const followButton = screen.getByText('Follow');
     expect(followButton).toBeInTheDocument();
   });
@@ -133,6 +175,7 @@ describe('ProfileInfo follow button', () => {
       <ProfileInfo
         userDetails={{ ...userDetails, isFollowedByCurrentUser: true }}
         currentUserId="user456"
+        setUserDetails={mockSetUserDetails}
       />
     );
     const unfollowButton = screen.getByText('Unfollow');
@@ -145,10 +188,32 @@ describe('ProfileInfo follow button', () => {
   it('calls the follow function when the follow button is clicked', async () => {
     const consoleSpy = vi.spyOn(console, 'log');
     const user = userEvent.setup();
-    render(<ProfileInfo userDetails={userDetails} currentUserId="user456" />);
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId="user456"
+      />
+    );
     const followButton = screen.getByText('Follow');
     await user.click(followButton);
     expect(consoleSpy).toHaveBeenCalledWith('Follow user', 'user123');
     consoleSpy.mockRestore(); // Reset spy to avoid leakage between tests
+  });
+
+  it('display form when on edit button click', async () => {
+    const user = userEvent.setup();
+    render(
+      <ProfileInfo
+        userDetails={userDetails}
+        setUserDetails={mockSetUserDetails}
+        currentUserId={userDetails._id}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: /edit/i }));
+    await waitFor(() => {
+      expect(screen.getByText(/edit form/i)).toBeInTheDocument();
+    });
   });
 });
