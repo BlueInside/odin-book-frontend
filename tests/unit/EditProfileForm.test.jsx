@@ -142,4 +142,41 @@ describe('EditProfileForm', () => {
       expect(screen.getByText('Internal server error')).toBeInTheDocument();
     });
   });
+
+  it('updates form fields when userDetails prop changes', async () => {
+    const initialUserDetails = {
+      ...mockUserDetails,
+      firstName: 'John',
+      lastName: 'Doe',
+    };
+
+    const newUserDetails = {
+      ...mockUserDetails,
+      firstName: 'Jane',
+      lastName: 'Smith',
+    };
+
+    const { rerender } = render(
+      <EditProfileForm
+        userDetails={initialUserDetails}
+        onSave={mockOnSave}
+        closeEditForm={mockCloseForm}
+      />
+    );
+
+    expect(screen.getByLabelText('First Name:').value).toBe('John');
+    expect(screen.getByLabelText('Last Name:').value).toBe('Doe');
+
+    // Rerender with new props
+    rerender(
+      <EditProfileForm
+        userDetails={newUserDetails}
+        onSave={mockOnSave}
+        closeEditForm={mockCloseForm}
+      />
+    );
+
+    expect(screen.getByLabelText('First Name:').value).toBe('Jane');
+    expect(screen.getByLabelText('Last Name:').value).toBe('Smith');
+  });
 });
