@@ -15,6 +15,19 @@ export default function EditProfileForm({
     birthday: userDetails.birthday ? userDetails.birthday.substring(0, 10) : '', // Formatting date for input type="date"
   });
 
+  useEffect(() => {
+    setFormData({
+      firstName: userDetails.firstName || '',
+      lastName: userDetails.lastName || '',
+      email: userDetails.email || '',
+      bio: userDetails.bio || '',
+      relationship: userDetails.relationship || '',
+      birthday: userDetails.birthday
+        ? userDetails.birthday.substring(0, 10)
+        : '',
+    });
+  }, [userDetails]);
+
   const [profilePicture, setProfilePicture] = useState(null);
   const [coverPhoto, setCoverPhoto] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
