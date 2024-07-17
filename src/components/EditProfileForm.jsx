@@ -1,5 +1,16 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import {
+  Button,
+  ButtonContainer,
+  ErrorMsg,
+  FormContainer,
+  FormLabel,
+  StyledForm,
+  StyledInput,
+  StyledSelect,
+  StyledTextArea,
+} from '../styles/EditProfileFormStyles.styled';
 
 export default function EditProfileForm({
   userDetails,
@@ -49,7 +60,10 @@ export default function EditProfileForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (error) return;
+    if (error) {
+      window.scrollTo(0, 0);
+      return;
+    }
     setIsSubmitting(true);
 
     const data = new FormData();
@@ -97,6 +111,7 @@ export default function EditProfileForm({
       onSave(updatedUser);
     } catch (error) {
       console.log('Update user Error', error);
+      window.scrollTo(0, 0);
       setError(error.message);
     } finally {
       setIsSubmitting(false);
@@ -104,88 +119,99 @@ export default function EditProfileForm({
   };
 
   return (
-    <div>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <label>
-          First Name:
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Last Name:
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Bio:
-          <textarea name="bio" value={formData.bio} onChange={handleChange} />
-        </label>
-        <label>
-          Relationship Status:
-          <select
-            name="relationship"
-            value={formData.relationship}
-            onChange={handleChange}
+    <FormContainer>
+      {error && <ErrorMsg>{error}</ErrorMsg>}
+      <StyledForm onSubmit={handleSubmit} encType="multipart/form-data">
+        <FormLabel htmlFor="firstName">First Name:</FormLabel>
+        <StyledInput
+          type="text"
+          id="firstName"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+        />
+
+        <FormLabel htmlFor="lastName">Last Name:</FormLabel>
+        <StyledInput
+          type="text"
+          id="lastName"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
+
+        <FormLabel htmlFor="email">Email:</FormLabel>
+        <StyledInput
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <FormLabel htmlFor="bio">Bio:</FormLabel>
+        <StyledTextArea
+          id="bio"
+          name="bio"
+          value={formData.bio}
+          onChange={handleChange}
+        />
+
+        <FormLabel htmlFor="relationship">Relationship Status:</FormLabel>
+        <StyledSelect
+          id="relationship"
+          name="relationship"
+          value={formData.relationship}
+          onChange={handleChange}
+        >
+          <option value="">Choose...</option>
+          <option value="Single">Single</option>
+          <option value="Complicated">Complicated</option>
+          <option value="In relationship">In relationship</option>
+        </StyledSelect>
+
+        <FormLabel htmlFor="birthday">Birthday:</FormLabel>
+        <StyledInput
+          type="date"
+          id="birthday"
+          name="birthday"
+          value={formData.birthday}
+          onChange={handleChange}
+        />
+
+        <FormLabel htmlFor="profilePicture">Profile Picture:</FormLabel>
+        <StyledInput
+          type="file"
+          id="profilePicture"
+          name="profilePicture"
+          onChange={handleImageChange}
+          accept="image/*"
+        />
+
+        <FormLabel htmlFor="coverPhoto">Cover Photo:</FormLabel>
+        <StyledInput
+          type="file"
+          id="coverPhoto"
+          name="coverPhoto"
+          onChange={handleImageChange}
+          accept="image/*"
+        />
+
+        <ButtonContainer>
+          <Button
+            type="button"
+            onClick={() => {
+              closeEditForm();
+            }}
           >
-            <option value="">Choose...</option>
-            <option value="Single">Single</option>
-            <option value="Complicated">Complicated</option>
-            <option value="In relationship">In relationship</option>
-          </select>
-        </label>
-        <label>
-          Birthday:
-          <input
-            type="date"
-            name="birthday"
-            value={formData.birthday}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Profile Picture:
-          <input
-            type="file"
-            name="profilePicture"
-            onChange={handleImageChange}
-            accept="image/*"
-          />
-        </label>
-        <label>
-          Cover Photo:
-          <input
-            type="file"
-            name="coverPhoto"
-            onChange={handleImageChange}
-            accept="image/*"
-          />
-        </label>
-        <button type="button" onClick={closeEditForm}>
-          Cancel
-        </button>
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Save Changes'}
-        </button>
-      </form>
-    </div>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Save Changes'}
+          </Button>
+        </ButtonContainer>
+      </StyledForm>
+    </FormContainer>
   );
 }
 
