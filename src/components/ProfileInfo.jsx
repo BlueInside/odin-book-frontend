@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import EditProfileForm from './EditProfileForm';
 import PostList from './PostList';
 import { useParams } from 'react-router-dom';
+import { followUser, unfollowUser } from '../utilities/followUtils';
 export default function ProfileInfo({
   userDetails,
   currentUserId,
@@ -41,12 +42,18 @@ export default function ProfileInfo({
   const defaultCoverPhoto =
     'https://res.cloudinary.com/dhjzutfu9/image/upload/v1720300583/odin-project/default-bgImage_xcqvih.webp';
 
-  const handleFollow = () => {
-    console.log('Follow user', _id);
+  const handleFollow = async () => {
+    const result = await followUser(userDetails._id);
+    if (result) {
+      setUserDetails({ ...userDetails, isFollowedByCurrentUser: true });
+    }
   };
 
-  const handleUnfollow = () => {
-    console.log('Unfollow user: ', _id);
+  const handleUnfollow = async () => {
+    const result = await unfollowUser(userDetails._id);
+    if (result) {
+      setUserDetails({ ...userDetails, isFollowedByCurrentUser: false });
+    }
   };
 
   const onSave = (updatedUserDetails) => {
