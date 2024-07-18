@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useAuth } from '../hooks/useAuth';
 
 const Navbar = styled.nav`
-  position: fixed;
+  position: sticky;
   bottom: 0;
   width: 100%;
   background-color: #fff;
