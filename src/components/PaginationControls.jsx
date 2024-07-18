@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
-
+import {
+  PaginationContainer,
+  PageButton,
+  NavButton,
+} from '../styles/PaginationControlsStyles.styled';
 export default function PaginationControls({
   currentPage,
   hasNextPage,
@@ -11,35 +15,35 @@ export default function PaginationControls({
     let pages = [];
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
-        <button
+        <PageButton
           key={i}
           onClick={() => setCurrentPage(i)}
           disabled={i === currentPage}
           style={{ fontWeight: i === currentPage ? 'bold' : 'normal' }}
         >
           {i}
-        </button>
+        </PageButton>
       );
     }
     return pages;
   };
 
   return (
-    <div>
+    <PaginationContainer>
       {currentPage > 1 && (
-        <button onClick={() => setCurrentPage(currentPage - 1)}>
+        <NavButton onClick={() => setCurrentPage(currentPage - 1)}>
           <MdNavigateBefore /> Prev
-        </button>
+        </NavButton>
       )}
 
       {renderPageNumbers()}
 
       {hasNextPage && (
-        <button onClick={() => setCurrentPage(currentPage + 1)}>
+        <NavButton onClick={() => setCurrentPage(currentPage + 1)}>
           Next <MdNavigateNext />
-        </button>
+        </NavButton>
       )}
-    </div>
+    </PaginationContainer>
   );
 }
 
