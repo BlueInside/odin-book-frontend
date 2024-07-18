@@ -12,11 +12,25 @@ vi.mock('../../src/components/PaginationControls', () => ({
 
 globalThis.fetch = vi.fn();
 
+const mockUsers = [
+  {
+    _id: 'userId',
+    firstName: 'Karol',
+    lastName: 'Pulawski',
+    profilePicture:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/388.jpg',
+    fullName: 'Karol Pulawski',
+    id: 'userId',
+    followedByUser: false,
+  },
+];
+
+fetch.mockResolvedValue(mockUsers);
+
 describe('UsersPage', () => {
   beforeEach(() => {
     fetch.mockClear();
   });
-
   it('should display UsersPage correctly', async () => {
     render(<UsersPage />);
 
