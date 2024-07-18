@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useParams } from 'react-router-dom';
 import ProfileInfo from '../components/ProfileInfo';
 import LoadingSpinner from '../components/Spinner';
+import ErrorPage from '../components/ErrorPage';
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -29,7 +30,7 @@ export default function ProfilePage() {
   }, [userId]);
 
   if (loading) return <LoadingSpinner />;
-  if (error) return <div>Error...</div>;
+  if (error) return <ErrorPage />;
   if (!userData) return <div>No user data available</div>;
 
   return (

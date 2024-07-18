@@ -7,12 +7,16 @@ import PostList from '../components/PostList';
 import PostDetailPage from '../pages/PostDetailPage';
 import ProfilePage from '../pages/ProfilePage';
 import UsersPage from '../pages/UsersPage';
+import ErrorPage from '../components/ErrorPage';
+
 const router = createBrowserRouter([
   {
+    errorElement: <ErrorPage />,
     path: '/sign',
     element: <SignInPage />,
   },
   {
+    errorElement: <ErrorPage />,
     path: '/',
     element: (
       <ProtectedRoute>

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { ErrorMessageBox } from '../styles/PostListStyles.styled';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import LoadingSpinner from './Spinner';
+import ErrorPage from './ErrorPage';
 
 const NoPostsMessage = styled.div`
   color: #606770;
@@ -33,7 +33,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
   }, [posts]);
 
   if (loading) return null;
-  if (error) return <div>Error...</div>;
+  if (error) return <ErrorPage />;
   if (!posts.length)
     return <NoPostsMessage>User has not posted anything yet.</NoPostsMessage>;
 

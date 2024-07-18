@@ -8,7 +8,9 @@ import userEvent from '@testing-library/user-event';
 
 // Mock
 vi.mock('../../src/hooks/usePosts', () => ({ default: vi.fn() }));
-
+vi.mock('../../src/components/ErrorPage', () => ({
+  default: () => <div>Error...</div>,
+}));
 vi.mock('../../src/hooks/useAuth', () => ({
   useAuth: vi.fn(),
 }));
@@ -99,7 +101,7 @@ describe('Post list', () => {
         <PostList />
       </MemoryRouter>
     );
-    expect(screen.getByText('Error...')).toBeInTheDocument();
+    expect(screen.getByText(/error/i)).toBeInTheDocument();
   });
 
   it('Should display correct content in posts', () => {
