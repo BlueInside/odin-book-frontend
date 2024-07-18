@@ -13,6 +13,8 @@ vi.mock('../../src/components/PostList', () => ({
   default: () => <div>Post list</div>,
 }));
 
+globalThis.fetch = vi.fn();
+
 describe('ProfileInfo component', () => {
   it('renders user details correctly', () => {
     const userDetails = {
@@ -173,7 +175,6 @@ describe('ProfileInfo follow button', () => {
     };
 
     const user = userEvent.setup();
-    const consoleSpy = vi.spyOn(console, 'log');
 
     render(
       <ProfileInfo
@@ -185,12 +186,17 @@ describe('ProfileInfo follow button', () => {
     const unfollowButton = screen.getByText('Unfollow');
     expect(unfollowButton).toBeInTheDocument();
     await user.click(unfollowButton);
-    expect(console.log).toHaveBeenCalledWith('Unfollow user: ', 'user123');
-    consoleSpy.mockRestore();
+    expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/unfollow`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ followedId: userDetails._id }),
+    });
   });
 
   it('calls the follow function when the follow button is clicked', async () => {
-    const consoleSpy = vi.spyOn(console, 'log');
     const user = userEvent.setup();
     render(
       <ProfileInfo
@@ -201,8 +207,14 @@ describe('ProfileInfo follow button', () => {
     );
     const followButton = screen.getByText('Follow');
     await user.click(followButton);
-    expect(consoleSpy).toHaveBeenCalledWith('Follow user', 'user123');
-    consoleSpy.mockRestore(); // Reset spy to avoid leakage between tests
+    expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/follow`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ followedId: userDetails._id }),
+    });
   });
 
   it('display form when on edit button click', async () => {
