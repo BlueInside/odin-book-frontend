@@ -23,10 +23,11 @@ export default function HomeLayout() {
         </Link>
         <WelcomeMessage>Welcome, {user.firstName}!</WelcomeMessage>
       </HeaderContainer>
-      <NavigationBar />
-      <main>
+
+      <main style={{ minHeight: '90vh' }}>
         <Outlet />
       </main>
+      <NavigationBar />
     </div>
   );
 }
