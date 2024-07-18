@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import UsersList from '../components/UsersList';
 import PaginationControls from '../components/PaginationControls';
-
+import {
+  SearchBarContainer,
+  Label,
+  SearchInput,
+  StyledContainer,
+} from '../styles/UsersPageStyles.styled';
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,13 +20,15 @@ export default function UsersPage() {
         const response = await fetch(
           `http://localhost:3000/users/?q=${encodeURIComponent(
             query
-          )}&page=${currentPage}`
+          )}&page=${currentPage}`,
+          { credentials: 'include' }
         );
-
         const data = await response.json();
+        console.log('Users DATA, ', data);
         setUsers(data.users);
         setTotalPages(data.totalPages);
-        setHasNextPage(hasNextPage);
+        setHasNextPage(data.hasNextPage);
+        console.log(hasNextPage);
       } catch (error) {
         console.error('Failed to fetch users:', error);
       }
@@ -31,19 +38,21 @@ export default function UsersPage() {
   }, [currentPage, hasNextPage, query]);
 
   return (
-    <div>
-      <label htmlFor="searchBar" aria-label="search bar">
-        Search
-      </label>
-      <input
-        type="text"
-        id="searchBar"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-        }}
-        placeholder="Search users"
-      />
+    <StyledContainer>
+      <SearchBarContainer>
+        <Label htmlFor="searchBar" aria-label="search bar">
+          Search
+        </Label>
+        <SearchInput
+          type="text"
+          id="searchBar"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
+          placeholder="Search users"
+        />
+      </SearchBarContainer>
 
       <UsersList users={users} />
       <PaginationControls
@@ -53,6 +62,6 @@ export default function UsersPage() {
         hasNextPage={hasNextPage}
         setHasNextPage={setHasNextPage}
       />
-    </div>
+    </StyledContainer>
   );
 }

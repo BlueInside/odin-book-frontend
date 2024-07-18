@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-
+import { FaUserPlus, FaUserCheck } from 'react-icons/fa';
+import {
+  UserContainer,
+  Avatar,
+  UserName,
+  ActionButton,
+  StyledLink,
+} from '../styles/UsersListStyles.styled';
 export default function UsersList({ users }) {
   return (
     <div>
@@ -20,30 +26,23 @@ function User({ user }) {
   const handleUnfollow = async () => {};
 
   return (
-    <div>
-      <div>
-        <Link to={`/profile/${user._id}`}>
-          <img
-            src={
-              user.profilePicture ? user.profilePicture : defaultProfileImage
-            }
-            alt={`${user.firstName} profile picture`}
-          />
-          <p>
-            <span>{user.firstName}</span>{' '}
-            {user.lastName && <span>{user.lastName}</span>}
-          </p>
-        </Link>
-      </div>
-
-      <div>
-        {user.followedByUser ? (
-          <button onClick={handleUnfollow}>Unfollow</button>
-        ) : (
-          <button onClick={handleFollow}>Follow</button>
-        )}
-      </div>
-    </div>
+    <UserContainer>
+      <StyledLink to={`/profile/${user._id}`}>
+        <Avatar
+          src={user.profilePicture || defaultProfileImage}
+          alt={`${user.firstName} profile picture`}
+        />
+        <UserName>
+          {user.firstName} {user.lastName}
+        </UserName>
+      </StyledLink>
+      <ActionButton
+        onClick={user.followedByUser ? handleUnfollow : handleFollow}
+      >
+        {user.followedByUser ? <FaUserCheck /> : <FaUserPlus />}
+        {user.followedByUser ? 'Unfollow' : 'Follow'}
+      </ActionButton>
+    </UserContainer>
   );
 }
 
