@@ -13,6 +13,7 @@ export default function UsersPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [query, setQuery] = useState('');
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
