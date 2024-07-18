@@ -5,7 +5,6 @@ export const FormContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  padding: 5px;
   max-width: 800px;
   width: 100%;
   margin-bottom: 60px;
