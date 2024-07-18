@@ -6,6 +6,7 @@ import HomeLayout from '../components/HomeLayout';
 import PostList from '../components/PostList';
 import PostDetailPage from '../pages/PostDetailPage';
 import ProfilePage from '../pages/ProfilePage';
+import UsersPage from '../pages/UsersPage';
 const router = createBrowserRouter([
   {
     path: '/sign',
@@ -40,6 +41,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <PostDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'users',
+        element: (
+          <ProtectedRoute>
+            <UsersPage />
           </ProtectedRoute>
         ),
       },
