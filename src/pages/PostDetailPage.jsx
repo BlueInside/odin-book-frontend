@@ -9,6 +9,7 @@ import {
   Stats,
 } from '../styles/PostDetailPageStyles.styled';
 import CreateComment from '../components/CreateComment';
+import { StyledLink } from '../styles/Comments.styled';
 
 export default function PostDetailPage() {
   const { postId } = useParams();
@@ -58,13 +59,15 @@ export default function PostDetailPage() {
   if (post) {
     return (
       <DetailContainer>
-        <AuthorInfo>
-          <ProfilePicture
-            src={post.author.profilePicture}
-            alt={`${post.author.firstName}'s avatar`}
-          />
-          <p>{post.author.firstName}</p>
-        </AuthorInfo>
+        <StyledLink to={`/profile/${post.author._id}`}>
+          <AuthorInfo>
+            <ProfilePicture
+              src={post.author.profilePicture}
+              alt={`${post.author.firstName}'s avatar`}
+            />
+            <p>{post.author.firstName}</p>
+          </AuthorInfo>
+        </StyledLink>
         <Content>
           <p>{post.content}</p>
         </Content>
