@@ -9,8 +9,12 @@ export const SearchBarContainer = styled.div`
 `;
 
 export const StyledContainer = styled.div`
+  min-height: 90vh;
   max-width: 800px;
+  display: flex;
   margin: auto;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 export const Label = styled.label`
   position: absolute;
