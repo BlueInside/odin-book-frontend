@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import LoadingSpinner from '../components/Spinner';
 import {
   Container,
   Form,
@@ -18,7 +19,7 @@ export default function CreatePost() {
   const [error, setError] = useState(null);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   const handleSubmit = async (event) => {

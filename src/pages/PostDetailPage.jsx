@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Comments from '../components/Comments';
+import LoadingSpinner from '../components/Spinner';
 import {
   DetailContainer,
   AuthorInfo,
@@ -54,7 +55,7 @@ export default function PostDetailPage() {
     setComments(newComments);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (error) return <div>Error: {error}</div>;
   if (post) {
     return (

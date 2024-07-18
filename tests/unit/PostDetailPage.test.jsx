@@ -49,7 +49,7 @@ describe('PostDetailPage', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByLabelText('Loading...')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText('This is a test post')).toBeInTheDocument();

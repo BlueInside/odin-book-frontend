@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+import LoadingSpinner from './Spinner';
 import {
   HeaderContainer,
   Logo,
@@ -12,7 +13,7 @@ export default function HomeLayout() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

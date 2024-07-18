@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 
 // Mock
 vi.mock('../../src/hooks/usePosts', () => ({ default: vi.fn() }));
+
 vi.mock('../../src/hooks/useAuth', () => ({
   useAuth: vi.fn(),
 }));
@@ -85,20 +86,6 @@ describe('Post list', () => {
     const posts = screen.getByText(/User has not posted anything yet./i);
 
     expect(posts).toBeInTheDocument();
-  });
-
-  it('Should display a loading message when loading', () => {
-    usePosts.mockReturnValue({
-      posts: [],
-      loading: true,
-      error: null,
-    });
-    render(
-      <MemoryRouter>
-        <PostList />
-      </MemoryRouter>
-    );
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
   it('Should display an error message on fetch error', () => {

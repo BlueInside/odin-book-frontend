@@ -25,18 +25,6 @@ describe('ProfilePage', () => {
     fetch.mockClear();
   });
 
-  it('renders loading state initially', () => {
-    fetch.mockReturnValueOnce(new Promise(() => {}));
-
-    render(
-      <MemoryRouter>
-        <ProfilePage />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-  });
-
   it('displays data upon successful fetch', async () => {
     const mockData = {
       user: { id: '123', firstName: 'John Doe' },

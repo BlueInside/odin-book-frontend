@@ -58,6 +58,6 @@ describe('ProtectedRoute', () => {
     useAuth.mockReturnValueOnce({ isLoading: true, user: null });
     render(<RouterProvider router={router} />);
 
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/loading.../i)).toBeInTheDocument();
   });
 });

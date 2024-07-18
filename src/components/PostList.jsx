@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ErrorMessageBox } from '../styles/PostListStyles.styled';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import LoadingSpinner from './Spinner';
 
 const NoPostsMessage = styled.div`
   color: #606770;
@@ -31,7 +32,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     setDisplayedPosts(posts);
   }, [posts]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return null;
   if (error) return <div>Error...</div>;
   if (!posts.length)
     return <NoPostsMessage>User has not posted anything yet.</NoPostsMessage>;
