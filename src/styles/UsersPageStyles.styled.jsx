@@ -8,8 +8,32 @@ export const SearchBarContainer = styled.div`
   align-items: center;
 `;
 
+export const SearchButton = styled.button`
+  background-color: #4267b2; // Facebook blue
+  color: white;
+  border: none;
+  border-radius: 5px; // Slightly rounded edges
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #365899;
+  }
+
+  svg {
+    margin-right: 5px;
+  }
+`;
+
 export const StyledContainer = styled.div`
-  min-height: 90vh;
+  min-height: 86vh;
   max-width: 800px;
   display: flex;
   margin: auto;
