@@ -45,7 +45,7 @@ export default function UsersPage() {
         placeholder="Search users"
       />
 
-      <UsersList />
+      <UsersList users={users} />
       <PaginationControls />
     </div>
   );
