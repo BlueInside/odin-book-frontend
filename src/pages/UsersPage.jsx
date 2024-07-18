@@ -24,11 +24,9 @@ export default function UsersPage() {
           { credentials: 'include' }
         );
         const data = await response.json();
-        console.log('Users DATA, ', data);
         setUsers(data.users);
         setTotalPages(data.totalPages);
         setHasNextPage(data.hasNextPage);
-        console.log(hasNextPage);
       } catch (error) {
         console.error('Failed to fetch users:', error);
       }
