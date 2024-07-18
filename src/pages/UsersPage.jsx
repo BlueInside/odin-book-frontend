@@ -46,7 +46,13 @@ export default function UsersPage() {
       />
 
       <UsersList users={users} />
-      <PaginationControls />
+      <PaginationControls
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        hasNextPage={hasNextPage}
+        setHasNextPage={setHasNextPage}
+      />
     </div>
   );
 }
