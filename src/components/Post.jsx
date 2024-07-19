@@ -11,6 +11,7 @@ import {
   IconText,
   PostContent,
   StyledLink,
+  ImageContainer,
 } from '../styles/PostStyles.styled';
 export default function Post({ post, userId, deletePost, handleLikeClick }) {
   const isPostAuthor = userId === post.author._id;
@@ -37,6 +38,11 @@ export default function Post({ post, userId, deletePost, handleLikeClick }) {
         <PostContent>
           <p>{post.content}</p>
         </PostContent>
+        <ImageContainer>
+          {post?.media[0]?.url && (
+            <img src={post.media[0].url} alt="Post media" />
+          )}
+        </ImageContainer>
       </StyledLink>
 
       <InteractionBar>
