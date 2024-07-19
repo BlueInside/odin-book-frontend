@@ -17,10 +17,7 @@ export default function PaginationControls({
       pages.push(
         <PageButton
           key={i}
-          onClick={() => {
-            setCurrentPage(i);
-            window.scrollTo(0, 0);
-          }}
+          onClick={() => setCurrentPage(i)}
           disabled={i === currentPage}
           style={{ fontWeight: i === currentPage ? 'bold' : 'normal' }}
         >
@@ -34,12 +31,7 @@ export default function PaginationControls({
   return (
     <PaginationContainer>
       {currentPage > 1 && (
-        <NavButton
-          onClick={() => {
-            setCurrentPage(currentPage - 1);
-            window.scrollTo(0, 0);
-          }}
-        >
+        <NavButton onClick={() => setCurrentPage(currentPage - 1)}>
           <MdNavigateBefore /> Prev
         </NavButton>
       )}
@@ -47,12 +39,7 @@ export default function PaginationControls({
       {renderPageNumbers()}
 
       {hasNextPage && (
-        <NavButton
-          onClick={() => {
-            setCurrentPage(currentPage + 1);
-            window.scrollTo(0, 0);
-          }}
-        >
+        <NavButton onClick={() => setCurrentPage(currentPage + 1)}>
           Next <MdNavigateNext />
         </NavButton>
       )}
