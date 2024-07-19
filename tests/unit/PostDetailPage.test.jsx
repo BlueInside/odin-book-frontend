@@ -34,7 +34,9 @@ describe('PostDetailPage', () => {
         },
         content: 'This is a test post',
         likesCount: 5,
+        media: [],
       },
+
       comments: [{}, {}, {}],
     };
 
