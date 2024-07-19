@@ -17,6 +17,13 @@ export default function CreatePost() {
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [postFile, setPostFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.name === 'postImage') {
+      setPostFile(e.target.files[0]);
+    }
+  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -27,6 +34,12 @@ export default function CreatePost() {
     setIsSubmitting(true);
     setError(null);
 
+    const formData = new FormData();
+    formData.append('content', content);
+    if (postFile) {
+      formData.append('postImage', postFile);
+    }
+
     try {
       if (content.trim() === '') {
         throw new Error('Post content cannot be empty!');
@@ -34,19 +47,25 @@ export default function CreatePost() {
 
       const response = await fetch('http://localhost:3000/posts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         credentials: 'include',
-        body: JSON.stringify({ content }),
+        body: formData,
       });
-      console.log('Content:', JSON.stringify({ content }));
+
       if (!response.ok) {
-        throw new Error('Failed to create post');
+        console.log('Update response not ok: ', response);
+        if (response.status >= 400) {
+          const responseError = await response.json();
+          const errorMessage =
+            responseError.error ||
+            responseError?.errors[0]?.msg ||
+            'Undefined error occurred. Please try again later.';
+          throw new Error(errorMessage);
+        }
       }
-      const data = await response.json();
-      console.log('Successful request', data.post);
+      const responseData = await response.json();
+      console.log('Successful request', responseData.post);
       setContent('');
+      setPostFile(null);
       setError('');
       navigate('/');
     } catch (error) {
@@ -61,7 +80,7 @@ export default function CreatePost() {
       <>
         {error && <ErrorMsg>{error}</ErrorMsg>}
         <Container>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} encType="multipart/form-data">
             <Label htmlFor="content">Content</Label>
             <Input
               type="text"
@@ -71,6 +90,12 @@ export default function CreatePost() {
               cols={25}
               value={content}
               onChange={(e) => setContent(e.target.value)}
+            />
+            <input
+              onChange={handleFileChange}
+              type="file"
+              name="postImage"
+              accept="image/*"
             />
             <SubmitButton type="submit" disabled={isSubmitting}>
               Create post
