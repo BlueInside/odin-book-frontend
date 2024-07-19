@@ -26,7 +26,7 @@ export default function usePosts(apiUrl) {
         setError(error);
         setLoading(false);
       });
-  }, [apiUrl, currentPage, hasNextPage]);
+  }, [apiUrl, currentPage]);
 
   return {
     posts,
