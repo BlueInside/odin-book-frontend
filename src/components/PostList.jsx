@@ -7,6 +7,7 @@ import { ErrorMessageBox } from '../styles/PostListStyles.styled';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ErrorPage from './ErrorPage';
+import PaginationControls from './PaginationControls';
 
 const NoPostsMessage = styled.div`
   color: #606770;
@@ -22,13 +23,22 @@ const NoPostsMessage = styled.div`
 `;
 
 export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
-  const { posts, loading, error } = usePosts(apiUrl);
+  const {
+    posts,
+    loading,
+    error,
+    currentPage,
+    hasNextPage,
+    totalPages,
+    setCurrentPage,
+  } = usePosts(apiUrl);
   const { user } = useAuth();
   const [deletePostError, setDeletePostError] = useState(null);
   const [likePostError, setLikePostError] = useState(null);
   const [displayedPosts, setDisplayedPosts] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setDisplayedPosts(posts);
   }, [posts]);
 
@@ -93,20 +103,30 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     }
   };
   return (
-    <ListWrapper>
-      {deletePostError && <ErrorMessageBox>{deletePostError}</ErrorMessageBox>}
-      {likePostError && <ErrorMessageBox>{likePostError}</ErrorMessageBox>}
+    <div>
+      <ListWrapper>
+        {deletePostError && (
+          <ErrorMessageBox>{deletePostError}</ErrorMessageBox>
+        )}
+        {likePostError && <ErrorMessageBox>{likePostError}</ErrorMessageBox>}
 
-      {displayedPosts.map((post) => (
-        <Post
-          key={post._id}
-          post={post}
-          userId={user.id}
-          handleLikeClick={handleLikeClick}
-          deletePost={handleDeletePost}
-        />
-      ))}
-    </ListWrapper>
+        {displayedPosts.map((post) => (
+          <Post
+            key={post._id}
+            post={post}
+            userId={user.id}
+            handleLikeClick={handleLikeClick}
+            deletePost={handleDeletePost}
+          />
+        ))}
+      </ListWrapper>
+      <PaginationControls
+        currentPage={currentPage}
+        hasNextPage={hasNextPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
+    </div>
   );
 }
 
