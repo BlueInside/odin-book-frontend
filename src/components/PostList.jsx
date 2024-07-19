@@ -38,6 +38,10 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
   const [displayedPosts, setDisplayedPosts] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  useEffect(() => {
     setDisplayedPosts(posts);
   }, [posts]);
 
