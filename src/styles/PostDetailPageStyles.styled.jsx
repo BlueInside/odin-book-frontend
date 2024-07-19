@@ -1,10 +1,25 @@
 import styled from 'styled-components';
 
+export const ImageContainer = styled.div`
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  max-width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+`;
 export const DetailContainer = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px;
   width: auto;
   max-width: 600px; // Limit the width for larger screens
