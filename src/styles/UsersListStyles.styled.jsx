@@ -4,7 +4,14 @@ import styled from 'styled-components';
 export const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
+  text-decoration: none;
+
+  &:visited {
+    color: #0056b3;
+    text-decoration: none;
+  }
 `;
+
 export const UserContainer = styled.div`
   display: flex;
   align-items: center;
