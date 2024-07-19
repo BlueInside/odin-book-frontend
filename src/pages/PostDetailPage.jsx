@@ -8,6 +8,7 @@ import {
   ProfilePicture,
   Content,
   Stats,
+  ImageContainer,
 } from '../styles/PostDetailPageStyles.styled';
 import CreateComment from '../components/CreateComment';
 import { StyledLink } from '../styles/Comments.styled';
@@ -19,6 +20,7 @@ export default function PostDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  window.scrollTo(0, 0);
   console.log('POST DETAIL:', post);
   useEffect(() => {
     const fetchPost = async () => {
@@ -72,6 +74,12 @@ export default function PostDetailPage() {
         <Content>
           <p>{post.content}</p>
         </Content>
+        {post?.media[0]?.url && (
+          <ImageContainer>
+            {' '}
+            <img src={post.media[0].url} alt="Post media"></img>
+          </ImageContainer>
+        )}
         <Stats>
           <p>Likes: {post.likesCount}</p>
           <p>Comments: {comments.length}</p>
