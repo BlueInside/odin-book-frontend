@@ -23,6 +23,11 @@ const NoPostsMessage = styled.div`
 `;
 
 export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
+  const { user } = useAuth();
+  const [deletePostError, setDeletePostError] = useState(null);
+  const [likePostError, setLikePostError] = useState(null);
+  const [displayedPosts, setDisplayedPosts] = useState([]);
+
   const {
     posts,
     loading,
@@ -32,10 +37,6 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     totalPages,
     setCurrentPage,
   } = usePosts(apiUrl);
-  const { user } = useAuth();
-  const [deletePostError, setDeletePostError] = useState(null);
-  const [likePostError, setLikePostError] = useState(null);
-  const [displayedPosts, setDisplayedPosts] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
