@@ -69,14 +69,17 @@ describe('UsersList', () => {
 
     await user.click(followButton);
 
-    expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/follow`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ followedId: users[1]._id }),
-    });
+    expect(fetch).toHaveBeenCalledWith(
+      `https://odin-book-backend-production.up.railway.app/follow`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ followedId: users[1]._id }),
+      }
+    );
   });
 
   it('send fetch request when un-follow user', async () => {
@@ -91,13 +94,16 @@ describe('UsersList', () => {
 
     await user.click(unfollowButton);
 
-    expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/unfollow`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ followedId: users[0]._id }),
-    });
+    expect(fetch).toHaveBeenCalledWith(
+      `https://odin-book-backend-production.up.railway.app/unfollow`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ followedId: users[0]._id }),
+      }
+    );
   });
 });

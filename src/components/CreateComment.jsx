@@ -36,14 +36,17 @@ export default function CreateComment({ postId, addComment }) {
         return;
       }
 
-      const response = await fetch('http://localhost:3000/comments', {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({ content, postId: postId }),
-      });
+      const response = await fetch(
+        'https://odin-book-backend-production.up.railway.app/comments',
+        {
+          credentials: 'include',
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({ content, postId: postId }),
+        }
+      );
       if (!response.ok) {
         throw new Error('Failed to create post');
       }

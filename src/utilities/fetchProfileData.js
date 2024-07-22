@@ -1,6 +1,6 @@
 async function fetchProfileData(userId) {
-  const userDetailsUrl = `http://localhost:3000/users/${userId}`;
-  const userPostsUrl = `http://localhost:3000/users/${userId}/posts`;
+  const userDetailsUrl = `https://odin-book-backend-production.up.railway.app/users/${userId}`;
+  const userPostsUrl = `https://odin-book-backend-production.up.railway.app/users/${userId}/posts`;
 
   try {
     const [userDetailsResponse, userPostsResponse] = await Promise.all([

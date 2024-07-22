@@ -22,7 +22,9 @@ const NoPostsMessage = styled.div`
   max-width: 800px;
 `;
 
-export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
+export default function PostList({
+  apiUrl = 'https://odin-book-backend-production.up.railway.app/posts',
+}) {
   const { user } = useAuth();
   const [deletePostError, setDeletePostError] = useState(null);
   const [likePostError, setLikePostError] = useState(null);
@@ -67,12 +69,15 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     setDisplayedPosts(updatedPosts);
 
     try {
-      const response = await fetch(`http://localhost:3000/likes`, {
-        credentials: 'include',
-        method: likedByUser ? 'DELETE' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postId: postId }),
-      });
+      const response = await fetch(
+        `https://odin-book-backend-production.up.railway.app/likes`,
+        {
+          credentials: 'include',
+          method: likedByUser ? 'DELETE' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ postId: postId }),
+        }
+      );
 
       if (!response.ok) throw new Error('Failed to update like status');
     } catch (error) {
@@ -88,7 +93,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
 
     setDeletePostError(null);
     try {
-      const response = await fetch(`http://localhost:3000/posts/${postId}`, {
+      const response = await fetch(`https://odin-book-backend-production.up.railway.app/posts/${postId}`, {
         credentials: 'include',
         method: 'DELETE',
         headers: {

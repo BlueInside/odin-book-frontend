@@ -26,10 +26,13 @@ export default function PostDetailPage() {
     const fetchPost = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/posts/${postId}`, {
-          credentials: 'include',
-          method: 'GET',
-        });
+        const response = await fetch(
+          `https://odin-book-backend-production.up.railway.app/posts/${postId}`,
+          {
+            credentials: 'include',
+            method: 'GET',
+          }
+        );
         if (!response.ok) throw new Error('Failed to fetch');
         const data = await response.json();
         if (data && data.post && Array.isArray(data.comments)) {

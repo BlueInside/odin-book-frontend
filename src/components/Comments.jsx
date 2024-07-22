@@ -21,14 +21,17 @@ export default function Comments({ comments, postId, deleteComment }) {
     try {
       setError(null);
 
-      const response = await fetch('http://localhost:3000/comments', {
-        credentials: 'include',
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({ postId: postId, commentId: commentId }),
-      });
+      const response = await fetch(
+        'https://odin-book-backend-production.up.railway.app/comments',
+        {
+          credentials: 'include',
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({ postId: postId, commentId: commentId }),
+        }
+      );
       if (!response.ok) throw new Error(`Couldn't delete comment`);
       const data = await response.json();
       console.log('DELETE COMMENT: ', data);

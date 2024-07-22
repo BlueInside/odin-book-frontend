@@ -80,7 +80,7 @@ export default function EditProfileForm({
 
     try {
       const response = await fetch(
-        `http://localhost:3000/users/${userDetails._id}`,
+        `https://odin-book-backend-production.up.railway.app/users/${userDetails._id}`,
         {
           method: 'PUT',
           credentials: 'include',

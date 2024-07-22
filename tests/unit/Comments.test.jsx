@@ -93,14 +93,17 @@ describe('Comments', () => {
     const deletePostBtn = screen.getByRole('button', { name: /delete/i });
     await user.click(deletePostBtn);
 
-    expect(fetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
-      credentials: 'include',
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ postId: 'post1', commentId: '1' }),
-    });
+    expect(fetch).toHaveBeenCalledWith(
+      'https://odin-book-backend-production.up.railway.app/comments',
+      {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({ postId: 'post1', commentId: '1' }),
+      }
+    );
 
     expect(mockDeleteComment).toHaveBeenCalledWith('1');
   });

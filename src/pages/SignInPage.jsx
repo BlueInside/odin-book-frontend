@@ -22,16 +22,20 @@ export default function SignInPage() {
 
   const handleGitHubSignIn = () => {
     setError(null);
-    window.location.href = 'http://localhost:3000/auth/github';
+    window.location.href =
+      'https://odin-book-backend-production.up.railway.app/auth/github';
   };
 
   const handleGuestSignIn = async () => {
     try {
       setError(null);
-      const response = await fetch('http://localhost:3000/auth/guest', {
-        method: 'GET',
-        credentials: 'include', // Ensure cookies are included
-      });
+      const response = await fetch(
+        'https://odin-book-backend-production.up.railway.app/auth/guest',
+        {
+          method: 'GET',
+          credentials: 'include', // Ensure cookies are included
+        }
+      );
       console.log(response);
       if (response.ok) {
         const result = await response.json();

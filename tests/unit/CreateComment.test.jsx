@@ -38,14 +38,17 @@ describe('CreateComment', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({ content: 'Nice post!', postId: '1' }),
-      });
+      expect(fetch).toHaveBeenCalledWith(
+        'https://odin-book-backend-production.up.railway.app/comments',
+        {
+          credentials: 'include',
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({ content: 'Nice post!', postId: '1' }),
+        }
+      );
       expect(mockAddComment).toHaveBeenCalledWith({
         id: '123',
         content: 'Nice post!',

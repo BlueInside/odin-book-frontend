@@ -45,11 +45,14 @@ export default function CreatePost() {
         throw new Error('Post content cannot be empty!');
       }
 
-      const response = await fetch('http://localhost:3000/posts', {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      });
+      const response = await fetch(
+        'https://odin-book-backend-production.up.railway.app/posts',
+        {
+          method: 'POST',
+          credentials: 'include',
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         console.log('Update response not ok: ', response);
