@@ -58,7 +58,7 @@ export default function CreatePost() {
         if (response.status >= 400) {
           const responseError = await response.json();
           const errorMessage =
-            responseError.error ||
+            responseError?.error ||
             responseError?.errors[0]?.msg ||
             'Undefined error occurred. Please try again later.';
           throw new Error(errorMessage);
