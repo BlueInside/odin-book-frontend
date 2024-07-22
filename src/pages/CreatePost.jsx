@@ -19,7 +19,6 @@ export default function CreatePost() {
   const [error, setError] = useState(null);
   const [postFile, setPostFile] = useState(null);
 
-  window.scrollTo(0.0);
   const handleFileChange = (e) => {
     if (e.target.name === 'postImage') {
       setPostFile(e.target.files[0]);
