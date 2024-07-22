@@ -89,7 +89,6 @@ export default function EditProfileForm({
       );
 
       if (!response.ok) {
-        console.log('Update response not ok: ', response);
         if (response.status >= 400) {
           const responseError = await response.json();
           const errorMessage =
@@ -107,10 +106,8 @@ export default function EditProfileForm({
         updatedUser.isFollowedByCurrentUser = false;
       }
 
-      console.log('Successfully updated user: ', updatedUser);
       onSave(updatedUser);
     } catch (error) {
-      console.log('Update user Error', error);
       window.scrollTo(0, 0);
       setError(error.message);
     } finally {

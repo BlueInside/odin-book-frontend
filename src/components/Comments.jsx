@@ -33,8 +33,6 @@ export default function Comments({ comments, postId, deleteComment }) {
         }
       );
       if (!response.ok) throw new Error(`Couldn't delete comment`);
-      const data = await response.json();
-      console.log('DELETE COMMENT: ', data);
       deleteComment(commentId);
     } catch (error) {
       setError(error.message);

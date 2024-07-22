@@ -36,7 +36,6 @@ export default function SignInPage() {
           credentials: 'include', // Ensure cookies are included
         }
       );
-      console.log(response);
       if (response.ok) {
         const result = await response.json();
         setUser(result.user);

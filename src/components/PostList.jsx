@@ -100,12 +100,8 @@ export default function PostList({
           'Content-type': 'application/json',
         },
       });
-
-      console.log('Like/Unlike: ', response);
       if (response.status === 400) throw new Error('Incorrect post id');
       if (!response.ok) throw new Error('Failed to delete post');
-      const data = await response.json();
-      console.log('Like/Unlike: ', data);
     } catch (error) {
       setDisplayedPosts(originalPosts); // Rollback
       setDeletePostError(error.message);

@@ -55,7 +55,6 @@ export default function CreatePost() {
       );
 
       if (!response.ok) {
-        console.log('Update response not ok: ', response);
         if (response.status >= 400) {
           const responseError = await response.json();
           const errorMessage =
@@ -65,8 +64,6 @@ export default function CreatePost() {
           throw new Error(errorMessage);
         }
       }
-      const responseData = await response.json();
-      console.log('Successful request', responseData.post);
       setContent('');
       setPostFile(null);
       setError('');

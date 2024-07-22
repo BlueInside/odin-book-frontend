@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
       .then((data) => {
         if (data.message === 'Valid token') {
           setUser(data.user);
-          console.log('User AUTH', data.user);
         } else {
           setUser(null);
         }

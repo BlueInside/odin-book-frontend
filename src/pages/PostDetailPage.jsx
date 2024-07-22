@@ -21,7 +21,6 @@ export default function PostDetailPage() {
   const [error, setError] = useState(null);
 
   window.scrollTo(0, 0);
-  console.log('POST DETAIL:', post);
   useEffect(() => {
     const fetchPost = async () => {
       setIsLoading(true);
