@@ -13,8 +13,14 @@ import {
   StyledLink,
   ImageContainer,
 } from '../styles/PostStyles.styled';
-export default function Post({ post, userId, deletePost, handleLikeClick }) {
-  const isPostAuthor = userId === post.author._id;
+export default function Post({
+  post,
+  userId,
+  deletePost,
+  handleLikeClick,
+  isAdmin,
+}) {
+  const isPostAuthor = userId === post.author._id || isAdmin;
 
   return (
     <PostContainer>
@@ -69,4 +75,5 @@ Post.propTypes = {
   userId: PropTypes.string.isRequired,
   deletePost: PropTypes.func.isRequired,
   handleLikeClick: PropTypes.func.isRequired,
+  isAdmin: PropTypes.bool,
 };
