@@ -87,7 +87,7 @@ describe('Post list', () => {
       </MemoryRouter>
     );
 
-    const posts = screen.getByText(/User has not posted anything yet./i);
+    const posts = screen.getByText(/so empty/i);
 
     expect(posts).toBeInTheDocument();
   });
