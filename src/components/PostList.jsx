@@ -41,7 +41,7 @@ export default function PostList({
   } = usePosts(apiUrl);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [currentPage]);
 
   useEffect(() => {
@@ -93,13 +93,16 @@ export default function PostList({
 
     setDeletePostError(null);
     try {
-      const response = await fetch(`https://odin-book-backend-production.up.railway.app/posts/${postId}`, {
-        credentials: 'include',
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `https://odin-book-backend-production.up.railway.app/posts/${postId}`,
+        {
+          credentials: 'include',
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json',
+          },
+        }
+      );
       if (response.status === 400) throw new Error('Incorrect post id');
       if (!response.ok) throw new Error('Failed to delete post');
     } catch (error) {

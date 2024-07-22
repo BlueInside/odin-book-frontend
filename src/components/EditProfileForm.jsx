@@ -61,7 +61,7 @@ export default function EditProfileForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (error) {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       return;
     }
     setIsSubmitting(true);
@@ -108,7 +108,7 @@ export default function EditProfileForm({
 
       onSave(updatedUser);
     } catch (error) {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       setError(error.message);
     } finally {
       setIsSubmitting(false);

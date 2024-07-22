@@ -20,7 +20,7 @@ export default function PostDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   useEffect(() => {
     const fetchPost = async () => {
       setIsLoading(true);
