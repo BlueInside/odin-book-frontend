@@ -4,13 +4,15 @@ import {
   HeaderContainer,
   Logo,
   WelcomeMessage,
+  LogoutButton,
 } from '../styles/HeaderStyles.styled';
 import NavigationBar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { FiLogOut } from 'react-icons/fi';
 
 export default function HomeLayout() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, logout } = useAuth();
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -23,6 +25,9 @@ export default function HomeLayout() {
           <Logo src="/src/assets/logo.svg" alt="Odin-Book Logo" />
         </Link>
         <WelcomeMessage>Welcome, {user.firstName}!</WelcomeMessage>
+        <LogoutButton onClick={() => logout()}>
+          <FiLogOut size={20} />
+        </LogoutButton>
       </HeaderContainer>
 
       <main style={{ minHeight: '90vh' }}>
