@@ -119,6 +119,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
             key={post._id}
             post={post}
             userId={user.id}
+            isAdmin={user.role === 'user' ? false : true}
             handleLikeClick={handleLikeClick}
             deletePost={handleDeletePost}
           />
