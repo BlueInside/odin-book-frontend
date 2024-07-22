@@ -1,5 +1,45 @@
 import styled from 'styled-components';
-import Button from '../components/Button';
+
+export const OrDivider = styled.p`
+  color: #666;
+  margin: 20px 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+export const StyledButton = styled.button`
+  background-color: #1877f2;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px; // Adds a bit of spacing around the buttons
+  display: block; // Makes each button take the full line
+  width: 100%; // Ensures the buttons extend full width of their container
+
+  &:hover {
+    background-color: #165eab;
+  }
+`;
+
+export const ErrorMessage = styled.p`
+  background-color: #ffdddd;
+  border-left: 5px solid #f44336;
+  color: #d32f2f;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: left;
+
+  &:before {
+    content: '⚠️ ';
+  }
+`;
 
 export const PageLayout = styled.div`
   display: flex;
@@ -30,22 +70,6 @@ export const Title = styled.h2`
   color: #1c1e21;
   font-size: 24px;
   margin-bottom: 20px;
-`;
-
-export const StyledButton = styled(Button)`
-  background-color: #1877f2;
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 6px;
-  width: 100%;
-  cursor: pointer;
-  border: none;
-  font-size: 16px;
-
-  &:hover {
-    background-color: #165c9c;
-  }
 `;
 
 export const Logo = styled.img`
