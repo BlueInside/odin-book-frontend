@@ -49,7 +49,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
   if (loading) return null;
   if (error) return <ErrorPage />;
   if (!posts.length)
-    return <NoPostsMessage>User has not posted anything yet.</NoPostsMessage>;
+    return <NoPostsMessage>So empty, create a post!</NoPostsMessage>;
 
   const handleLikeClick = async (postId, likedByUser) => {
     setLikePostError(null);
