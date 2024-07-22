@@ -60,7 +60,9 @@ describe('Comments', () => {
   });
 
   it('Should display delete buttons if comment belongs to user', async () => {
-    useAuth.mockReturnValue({ user: { id: 'karol', firstName: 'Karol' } });
+    useAuth.mockReturnValue({
+      user: { id: 'karol', firstName: 'Karol', role: 'user' },
+    });
     render(<RouterProvider router={router} />);
 
     expect(screen.getByRole('button', { name: /delete/i })).toBeInTheDocument();
@@ -68,7 +70,7 @@ describe('Comments', () => {
 
   it('should NOT display delete buttons if comment DOES NOT belongs to user', async () => {
     useAuth.mockReturnValue({
-      user: { id: 'Christine', firstName: 'Christine' },
+      user: { id: 'Christine', firstName: 'Christine', role: 'user' },
     });
     render(<RouterProvider router={router} />);
 
@@ -84,7 +86,7 @@ describe('Comments', () => {
     });
     const user = userEvent.setup();
     useAuth.mockReturnValue({
-      user: { id: 'karol', firstName: 'Karol' },
+      user: { id: 'karol', firstName: 'Karol', role: 'user' },
     });
     render(<RouterProvider router={router} />);
 
@@ -108,7 +110,7 @@ describe('Comments', () => {
     fetch.mockRejectedValueOnce(new Error('Failed to delete comment'));
 
     useAuth.mockReturnValue({
-      user: { id: 'karol', firstName: 'Karol' },
+      user: { id: 'karol', firstName: 'Karol', role: 'user' },
     });
 
     render(<RouterProvider router={router} />);
@@ -123,7 +125,9 @@ describe('Comments', () => {
 
   it('Click on comment name should navigate to profile page', async () => {
     const user = userEvent.setup();
-    useAuth.mockReturnValue({ user: { id: 'id', firstName: 'name' } });
+    useAuth.mockReturnValue({
+      user: { id: 'id', firstName: 'name', role: 'user' },
+    });
 
     render(<RouterProvider router={router} />);
 

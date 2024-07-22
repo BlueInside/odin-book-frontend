@@ -61,7 +61,9 @@ describe('Post list', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     fetch.mockClear();
-    useAuth.mockReturnValue({ user: { id: 'id1', firstName: 'karol' } });
+    useAuth.mockReturnValue({
+      user: { id: 'id1', firstName: 'karol', role: 'user' },
+    });
   });
 
   it('Should display posts', () => {
