@@ -37,7 +37,7 @@ export default function UsersPage() {
     };
 
     fetchUsers();
-  }, [currentPage, hasNextPage, query]);
+  }, [currentPage, query]);
 
   return (
     <StyledContainer>
