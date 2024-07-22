@@ -22,7 +22,10 @@ export default function HomeLayout() {
     <div>
       <HeaderContainer>
         <Link to={'http://localhost:5173/'}>
-          <Logo src="/src/assets/logo.svg" alt="Odin-Book Logo" />
+          <Logo
+            src="https://res.cloudinary.com/dhjzutfu9/image/upload/v1721645174/odin-project/dugnewbd9btkoxsvtpq7.svg"
+            alt="Odin-Book Logo"
+          />
         </Link>
         <WelcomeMessage>Welcome, {user.firstName}!</WelcomeMessage>
         <LogoutButton onClick={() => logout()}>
