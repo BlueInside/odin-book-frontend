@@ -35,7 +35,7 @@ describe('HomeLayout', () => {
     render(<HomeLayout />, { wrapper: MemoryRouter });
     expect(screen.getByRole('link')).toHaveAttribute(
       'href',
-      'http://localhost:5173/'
+      'https://odin-book-blueinside.netlify.app/'
     );
   });
 });

@@ -21,7 +21,7 @@ export default function HomeLayout() {
   return (
     <div>
       <HeaderContainer>
-        <Link to={'http://localhost:5173/'}>
+        <Link to={'https://odin-book-blueinside.netlify.app/'}>
           <Logo
             src="https://res.cloudinary.com/dhjzutfu9/image/upload/v1721645174/odin-project/dugnewbd9btkoxsvtpq7.svg"
             alt="Odin-Book Logo"
