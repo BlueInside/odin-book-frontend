@@ -49,7 +49,7 @@ export default function Comments({ comments, postId, deleteComment }) {
             </StyledLink>
             {comment.content}
           </CommentText>
-          {user.id === comment.author.id && (
+          {(user.id === comment.author.id || user.role === 'admin') && (
             <DeleteButton
               onClick={() => {
                 handleCommentDelete(postId, comment._id);
