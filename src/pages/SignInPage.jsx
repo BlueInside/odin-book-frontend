@@ -9,20 +9,48 @@ import {
   StyledButton,
   Logo,
   PageLayout,
+  ErrorMessage,
+  OrDivider,
 } from '../styles/SignIn.styled';
+import { useState } from 'react';
 
 export default function SignInPage() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const [error, setError] = useState(null);
+
   const navigate = useNavigate();
 
   const handleGitHubSignIn = () => {
+    setError(null);
     window.location.href = 'http://localhost:3000/auth/github';
+  };
+
+  const handleGuestSignIn = async () => {
+    try {
+      setError(null);
+      const response = await fetch('http://localhost:3000/auth/guest', {
+        method: 'GET',
+        credentials: 'include', // Ensure cookies are included
+      });
+      console.log(response);
+      if (response.ok) {
+        const result = await response.json();
+        setUser(result.user);
+        navigate('/');
+      } else {
+        throw new Error('Failed to sign in as guest');
+      }
+    } catch (error) {
+      setError(error.message);
+      console.error('Error signing in as guest:', error);
+    }
   };
 
   return (
     <>
       <PageLayout>
         <Header />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <PageContainer>
           <ContentContainer>
             <Logo
@@ -36,10 +64,16 @@ export default function SignInPage() {
                   Continue as {user.firstName}
                 </StyledButton>
               ) : (
-                <StyledButton onClick={handleGitHubSignIn}>
-                  Sign in with GitHub
-                </StyledButton>
+                <>
+                  <StyledButton onClick={handleGitHubSignIn}>
+                    Sign in with GitHub
+                  </StyledButton>
+                </>
               )}
+              <OrDivider>or</OrDivider>
+              <StyledButton onClick={handleGuestSignIn}>
+                Generate random user!
+              </StyledButton>
             </div>
           </ContentContainer>
         </PageContainer>
