@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProfileInfo from '../components/ProfileInfo';
 import LoadingSpinner from '../components/Spinner';
 import ErrorPage from '../components/ErrorPage';
@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -25,10 +26,20 @@ export default function ProfilePage() {
         setLoading(false);
       })
       .catch((error) => {
+        if (error.message === `AUTH_REQUIRED`) {
+          navigate('/error', {
+            state: {
+              errorCode: 401,
+              message: `Authentication required`,
+              suggestion:
+                'Please try to log in or create new user to continue.',
+            },
+          });
+        }
         setError(error);
         setLoading(false);
       });
-  }, [userId]);
+  }, [userId, navigate]);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorPage />;
