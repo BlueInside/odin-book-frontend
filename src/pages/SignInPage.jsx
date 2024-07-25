@@ -38,7 +38,6 @@ export default function SignInPage() {
       if (response.ok) {
         const result = await response.json();
         setUser(result.user);
-        console.log(`RESULT random user: `, result);
         localStorage.setItem('jwtToken', result.token);
         navigate('/');
       } else {
@@ -64,7 +63,7 @@ export default function SignInPage() {
             <Title>Sign in to your account</Title>
             <div>
               {user ? (
-                <StyledButton onClick={() => navigate('/')}>
+                <StyledButton onClick={() => handleGitHubSignIn()}>
                   Continue as {user.firstName}
                 </StyledButton>
               ) : (
