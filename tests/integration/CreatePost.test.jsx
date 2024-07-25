@@ -4,10 +4,15 @@ import CreatePost from '../../src/pages/CreatePost';
 import { useAuth } from '../../src/hooks/useAuth';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { authFetch } from '../../src/utilities/authFetch';
 
 // Mock modules
 vi.mock('../../src/hooks/useAuth', () => ({
   useAuth: vi.fn(),
+}));
+
+vi.mock('../../src/utilities/authFetch', () => ({
+  authFetch: vi.fn(),
 }));
 
 globalThis.fetch = vi.fn();
@@ -15,6 +20,7 @@ globalThis.fetch = vi.fn();
 describe('CreatePost', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    authFetch.mockClear();
     globalThis.fetch.mockClear();
 
     useAuth.mockReturnValue({
@@ -40,7 +46,7 @@ describe('CreatePost', () => {
     expect(input.value).toBe('New post content');
 
     // Setup fetch to resolve with a successful post creation
-    globalThis.fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ post: { content: 'New post content' } }),
     });
@@ -49,7 +55,7 @@ describe('CreatePost', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalled();
+      expect(authFetch).toHaveBeenCalled();
     });
 
     // After submission, the input should be cleared
@@ -58,6 +64,10 @@ describe('CreatePost', () => {
 
   it('displays an error when trying to submit an empty form', async () => {
     const user = userEvent.setup();
+    authFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ post: { content: 'New post content' } }),
+    });
     render(
       <MemoryRouter>
         <CreatePost />
