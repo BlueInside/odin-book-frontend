@@ -8,5 +8,9 @@ export const authFetch = async (url, options = {}) => {
   const config = { ...options, headers };
 
   const response = await fetch(url, config);
+
+  if (response.status === 401 || response.status === 403) {
+    throw new Error('AUTH_REQUIRED');
+  }
   return response;
 };
