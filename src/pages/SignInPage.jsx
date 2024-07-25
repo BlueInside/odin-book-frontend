@@ -25,13 +25,13 @@ export default function SignInPage() {
 
   const handleGitHubSignIn = () => {
     setError(null);
-    window.location.href = 'http://localhost:3000/auth/github';
+    window.location.href = 'https://odin-book-backend-production.up.railway.app/auth/github';
   };
 
   const handleGuestSignIn = async () => {
     try {
       setError(null);
-      const response = await authFetch('http://localhost:3000/auth/guest', {
+      const response = await authFetch('https://odin-book-backend-production.up.railway.app/auth/guest', {
         method: 'GET',
         credentials: 'include', // Ensure cookies are included
       });

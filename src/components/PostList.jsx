@@ -23,7 +23,7 @@ const NoPostsMessage = styled.div`
   max-width: 800px;
 `;
 
-export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
+export default function PostList({ apiUrl = 'https://odin-book-backend-production.up.railway.app/posts' }) {
   const { user } = useAuth();
   const [deletePostError, setDeletePostError] = useState(null);
   const [likePostError, setLikePostError] = useState(null);
@@ -68,7 +68,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     setDisplayedPosts(updatedPosts);
 
     try {
-      const response = await authFetch(`http://localhost:3000/likes`, {
+      const response = await authFetch(`https://odin-book-backend-production.up.railway.app/likes`, {
         credentials: 'include',
         method: likedByUser ? 'DELETE' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -90,7 +90,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     setDeletePostError(null);
     try {
       const response = await authFetch(
-        `http://localhost:3000/posts/${postId}`,
+        `https://odin-book-backend-production.up.railway.app/posts/${postId}`,
         {
           credentials: 'include',
           method: 'DELETE',

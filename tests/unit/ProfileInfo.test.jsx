@@ -194,7 +194,7 @@ describe('ProfileInfo follow button', () => {
     const unfollowButton = screen.getByText('Unfollow');
     expect(unfollowButton).toBeInTheDocument();
     await user.click(unfollowButton);
-    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/unfollow`, {
+    expect(authFetch).toHaveBeenCalledWith(`https://odin-book-backend-production.up.railway.app//unfollow`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ describe('ProfileInfo follow button', () => {
     );
     const followButton = screen.getByText('Follow');
     await user.click(followButton);
-    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/follow`, {
+    expect(authFetch).toHaveBeenCalledWith(`https://odin-book-backend-production.up.railway.app/follow`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

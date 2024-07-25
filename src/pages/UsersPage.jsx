@@ -25,7 +25,7 @@ export default function UsersPage() {
     const fetchUsers = async (page = currentPage) => {
       try {
         const response = await authFetch(
-          `http://localhost:3000/users/?q=${encodeURIComponent(
+          `https://odin-book-backend-production.up.railway.app/users/?q=${encodeURIComponent(
             query
           )}&page=${page}`,
           { credentials: 'include' }

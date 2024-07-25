@@ -37,7 +37,7 @@ export default function CreateComment({ postId, addComment }) {
         return;
       }
 
-      const response = await authFetch('http://localhost:3000/comments', {
+      const response = await authFetch('https://odin-book-backend-production.up.railway.app/', {
         credentials: 'include',
         method: 'POST',
         headers: {

@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    authFetch('http://localhost:3000/auth/verify', {
+    authFetch('https://odin-book-backend-production.up.railway.app/auth/verify', {
       method: 'GET',
       credentials: 'include',
     })

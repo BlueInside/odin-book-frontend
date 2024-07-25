@@ -27,7 +27,7 @@ export default function PostDetailPage() {
       setIsLoading(true);
       try {
         const response = await authFetch(
-          `http://localhost:3000/posts/${postId}`,
+          `https://odin-book-backend-production.up.railway.app/posts/${postId}`,
           {
             credentials: 'include',
             method: 'GET',

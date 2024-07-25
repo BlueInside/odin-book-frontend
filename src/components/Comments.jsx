@@ -22,7 +22,7 @@ export default function Comments({ comments, postId, deleteComment }) {
     try {
       setError(null);
 
-      const response = await authFetch('http://localhost:3000/comments', {
+      const response = await authFetch('https://odin-book-backend-production.up.railway.app/comments', {
         credentials: 'include',
         method: 'DELETE',
         headers: {

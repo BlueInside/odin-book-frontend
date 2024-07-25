@@ -134,7 +134,9 @@ export default function ProfileInfo({
         </ProfileDetails>
       </Container>
 
-      <PostList apiUrl={`http://localhost:3000/users/${userId}/posts`} />
+      <PostList
+        apiUrl={`https://odin-book-backend-production.up.railway.app/users/${userId}/posts`}
+      />
     </div>
   );
 }

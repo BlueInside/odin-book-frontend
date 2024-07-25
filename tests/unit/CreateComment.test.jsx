@@ -46,7 +46,7 @@ describe('CreateComment', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(authFetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
+      expect(authFetch).toHaveBeenCalledWith('https://odin-book-backend-production.up.railway.app/comments', {
         credentials: 'include',
         method: 'POST',
         headers: {

@@ -167,13 +167,16 @@ describe('Post list', () => {
     // Click on first post delete button
     await user.click(deletePostButtons[0]);
 
-    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/posts/1`, {
-      credentials: 'include',
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
+    expect(authFetch).toHaveBeenCalledWith(
+      `https://odin-book-backend-production.up.railway.app/posts/1`,
+      {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
   });
 
   it('Should hide removed post', async () => {
@@ -199,13 +202,16 @@ describe('Post list', () => {
     // Click on first post delete button
     await user.click(deletePostButtons[0]);
 
-    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/posts/1`, {
-      credentials: 'include',
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
+    expect(authFetch).toHaveBeenCalledWith(
+      `https://odin-book-backend-production.up.railway.app/posts/1`,
+      {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }
+    );
 
     expect(screen.getAllByRole('article')).toHaveLength(2);
   });
@@ -285,7 +291,7 @@ describe('Liking a Post', () => {
 
     expect(screen.getByText('17')).toBeInTheDocument();
     await waitFor(() => {
-      expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/likes`, {
+      expect(authFetch).toHaveBeenCalledWith(`https://odin-book-backend-production.up.railway.app/likes`, {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -352,7 +358,7 @@ describe('Liking a Post', () => {
     // Check if like count was optimistically updated
     expect(screen.getByText('15')).toBeInTheDocument(); // Assuming initial count was 16
     await waitFor(() => {
-      expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/likes`, {
+      expect(authFetch).toHaveBeenCalledWith(`https://odin-book-backend-production.up.railway.app/likes`, {
         credentials: 'include',
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },

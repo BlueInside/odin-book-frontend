@@ -16,7 +16,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     setLoading(true);
-    authFetch(`http://localhost:3000/users/${userId}`, {
+    authFetch(`https://odin-book-backend-production.up.railway.app/users/${userId}`, {
       method: 'GET',
       credentials: 'include',
     })
