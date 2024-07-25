@@ -47,7 +47,7 @@ export default function CreatePost() {
       }
 
       const response = await fetch(
-        'https://odin-book-backend-production.up.railway.app/posts',
+        'http://localhost:3000/posts',
         {
           method: 'POST',
           credentials: 'include',

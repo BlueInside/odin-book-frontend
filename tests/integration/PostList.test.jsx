@@ -161,7 +161,7 @@ describe('Post list', () => {
     await user.click(deletePostButtons[0]);
 
     expect(fetch).toHaveBeenCalledWith(
-      `https://odin-book-backend-production.up.railway.app/posts/1`,
+      `http://localhost:3000/posts/1`,
       {
         credentials: 'include',
         method: 'DELETE',
@@ -196,7 +196,7 @@ describe('Post list', () => {
     await user.click(deletePostButtons[0]);
 
     expect(fetch).toHaveBeenCalledWith(
-      `https://odin-book-backend-production.up.railway.app/posts/1`,
+      `http://localhost:3000/posts/1`,
       {
         credentials: 'include',
         method: 'DELETE',
@@ -284,7 +284,7 @@ describe('Liking a Post', () => {
     expect(screen.getByText('17')).toBeInTheDocument();
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        `https://odin-book-backend-production.up.railway.app/likes`,
+        `http://localhost:3000/likes`,
         {
           credentials: 'include',
           method: 'POST',
@@ -354,7 +354,7 @@ describe('Liking a Post', () => {
     expect(screen.getByText('15')).toBeInTheDocument(); // Assuming initial count was 16
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
-        `https://odin-book-backend-production.up.railway.app/likes`,
+        `http://localhost:3000/likes`,
         {
           credentials: 'include',
           method: 'DELETE',

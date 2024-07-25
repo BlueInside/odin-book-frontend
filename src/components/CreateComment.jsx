@@ -37,7 +37,7 @@ export default function CreateComment({ postId, addComment }) {
       }
 
       const response = await fetch(
-        'https://odin-book-backend-production.up.railway.app/comments',
+        'http://localhost:3000/comments',
         {
           credentials: 'include',
           method: 'POST',

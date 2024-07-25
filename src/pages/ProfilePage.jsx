@@ -14,13 +14,10 @@ export default function ProfilePage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(
-      `https://odin-book-backend-production.up.railway.app/users/${userId}`,
-      {
-        method: 'GET',
-        credentials: 'include',
-      }
-    )
+    fetch(`http://localhost:3000/users/${userId}`, {
+      method: 'GET',
+      credentials: 'include',
+    })
       .then((response) => response.json())
       .then((data) => {
         setUserData(data.user);

@@ -187,7 +187,7 @@ describe('ProfileInfo follow button', () => {
     expect(unfollowButton).toBeInTheDocument();
     await user.click(unfollowButton);
     expect(fetch).toHaveBeenCalledWith(
-      `https://odin-book-backend-production.up.railway.app/unfollow`,
+      `http://localhost:3000/unfollow`,
       {
         method: 'DELETE',
         headers: {
@@ -211,7 +211,7 @@ describe('ProfileInfo follow button', () => {
     const followButton = screen.getByText('Follow');
     await user.click(followButton);
     expect(fetch).toHaveBeenCalledWith(
-      `https://odin-book-backend-production.up.railway.app/follow`,
+      `http://localhost:3000//follow`,
       {
         method: 'POST',
         headers: {

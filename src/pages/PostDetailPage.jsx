@@ -26,7 +26,7 @@ export default function PostDetailPage() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://odin-book-backend-production.up.railway.app/posts/${postId}`,
+          `http://localhost:3000/posts/${postId}`,
           {
             credentials: 'include',
             method: 'GET',
