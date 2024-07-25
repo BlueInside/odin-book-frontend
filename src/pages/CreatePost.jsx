@@ -10,6 +10,7 @@ import {
   SubmitButton,
 } from '../styles/CreatePostStyles.styled';
 import { useNavigate } from 'react-router-dom';
+import { authFetch } from '../utilities/authFetch';
 export default function CreatePost() {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function CreatePost() {
   const [postFile, setPostFile] = useState(null);
 
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
   const handleFileChange = (e) => {
     if (e.target.name === 'postImage') {
       setPostFile(e.target.files[0]);
@@ -46,14 +48,11 @@ export default function CreatePost() {
         throw new Error('Post content cannot be empty!');
       }
 
-      const response = await fetch(
-        'http://localhost:3000/posts',
-        {
-          method: 'POST',
-          credentials: 'include',
-          body: formData,
-        }
-      );
+      const response = await authFetch('http://localhost:3000/posts', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
 
       if (!response.ok) {
         if (response.status >= 400) {
@@ -70,6 +69,15 @@ export default function CreatePost() {
       setError('');
       navigate('/');
     } catch (error) {
+      if (error.message === `AUTH_REQUIRED`) {
+        navigate('/error', {
+          state: {
+            errorCode: 401,
+            message: `Authentication required`,
+            suggestion: 'Please try to log in or create new user to continue.',
+          },
+        });
+      }
       setError(error.message);
     } finally {
       setIsSubmitting(false);
