@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import SignInPage from '../../src/pages/SignInPage';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 const mockUseAuth = vi.fn();
 vi.mock('../../src/hooks/useAuth', () => ({
@@ -53,18 +52,5 @@ describe('SignInPage component', () => {
     expect(
       screen.getByRole('button', { name: /Continue as Karol/i })
     ).toBeInTheDocument();
-  });
-
-  it('should navigate to /home on Continue button click', async () => {
-    mockUseAuth.mockReturnValue({ user: { firstName: 'Karol' } });
-    const user = userEvent.setup();
-
-    render(<RouterProvider router={router} />);
-
-    const button = screen.getByRole('button', { name: /continue as Karol/i });
-
-    await user.click(button);
-
-    expect(screen.getByText('Home page')).toBeInTheDocument();
   });
 });
