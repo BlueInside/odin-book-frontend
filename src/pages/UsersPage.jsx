@@ -10,6 +10,7 @@ import {
   SearchButton,
 } from '../styles/UsersPageStyles.styled';
 import { authFetch } from '../utilities/authFetch';
+import { useNavigate } from 'react-router-dom';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -18,6 +19,7 @@ export default function UsersPage() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async (page = currentPage) => {
@@ -33,12 +35,22 @@ export default function UsersPage() {
         setTotalPages(data.totalPages);
         setHasNextPage(data.hasNextPage);
       } catch (error) {
+        if (error.message === `AUTH_REQUIRED`) {
+          navigate('/error', {
+            state: {
+              errorCode: 401,
+              message: `Authentication required`,
+              suggestion:
+                'Please try to log in or create new user to continue.',
+            },
+          });
+        }
         console.error('Failed to fetch users:', error);
       }
     };
 
     fetchUsers();
-  }, [currentPage, query]);
+  }, [currentPage, query, navigate]);
 
   return (
     <StyledContainer>
