@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import UsersPage from '../../src/pages/UsersPage';
+import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('../../src/components/UsersList', () => ({
   default: () => <div>Users list</div>,
@@ -32,7 +33,11 @@ describe('UsersPage', () => {
     fetch.mockClear();
   });
   it('should display UsersPage correctly', async () => {
-    render(<UsersPage />);
+    render(
+      <MemoryRouter>
+        <UsersPage />
+      </MemoryRouter>
+    );
 
     expect(fetch).toHaveBeenCalledOnce();
     expect(screen.getByLabelText('search bar')).toBeInTheDocument();
