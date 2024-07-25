@@ -4,8 +4,13 @@ import Comments from '../../src/components/Comments';
 import { useAuth } from '../../src/hooks/useAuth';
 import userEvent from '@testing-library/user-event';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { authFetch } from '../../src/utilities/authFetch';
 
 // Mocks
+vi.mock('../../src/utilities/authFetch', () => ({
+  authFetch: vi.fn(),
+}));
+
 vi.mock('../../src/hooks/useAuth', () => ({
   useAuth: vi.fn(),
 }));
@@ -46,6 +51,7 @@ const router = createMemoryRouter(routes, {
 describe('Comments', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    authFetch.mockClear();
     globalThis.fetch.mockClear();
   });
 
@@ -80,7 +86,7 @@ describe('Comments', () => {
   });
 
   it('Should send DELETE request with post and comment ids on comment delete button click', async () => {
-    fetch.mockResolvedValue({
+    authFetch.mockResolvedValue({
       ok: true,
       json: () => ({ message: 'All good' }),
     });
@@ -93,7 +99,7 @@ describe('Comments', () => {
     const deletePostBtn = screen.getByRole('button', { name: /delete/i });
     await user.click(deletePostBtn);
 
-    expect(fetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
+    expect(authFetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
       credentials: 'include',
       method: 'DELETE',
       headers: {
@@ -107,7 +113,7 @@ describe('Comments', () => {
 
   it('displays an error message if the delete operation fails', async () => {
     const user = userEvent.setup();
-    fetch.mockRejectedValueOnce(new Error('Failed to delete comment'));
+    authFetch.mockRejectedValueOnce(new Error('Failed to delete comment'));
 
     useAuth.mockReturnValue({
       user: { id: 'karol', firstName: 'Karol', role: 'user' },

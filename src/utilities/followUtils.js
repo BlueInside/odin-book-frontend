@@ -1,6 +1,8 @@
+import { authFetch } from './authFetch';
+
 export const followUser = async (userId) => {
   try {
-    const response = await fetch(`http://localhost:3000/follow`, {
+    const response = await authFetch(`http://localhost:3000/follow`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +22,7 @@ export const followUser = async (userId) => {
 
 export const unfollowUser = async (userId) => {
   try {
-    const response = await fetch(`http://localhost:3000/unfollow`, {
+    const response = await authFetch(`http://localhost:3000/unfollow`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

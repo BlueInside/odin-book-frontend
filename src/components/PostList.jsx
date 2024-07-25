@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ErrorPage from './ErrorPage';
 import PaginationControls from './PaginationControls';
+import { authFetch } from '../utilities/authFetch';
 
 const NoPostsMessage = styled.div`
   color: #606770;
@@ -67,7 +68,7 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
     setDisplayedPosts(updatedPosts);
 
     try {
-      const response = await fetch(`http://localhost:3000/likes`, {
+      const response = await authFetch(`http://localhost:3000/likes`, {
         credentials: 'include',
         method: likedByUser ? 'DELETE' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -88,13 +89,16 @@ export default function PostList({ apiUrl = 'http://localhost:3000/posts' }) {
 
     setDeletePostError(null);
     try {
-      const response = await fetch(`http://localhost:3000/posts/${postId}`, {
-        credentials: 'include',
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-      });
+      const response = await authFetch(
+        `http://localhost:3000/posts/${postId}`,
+        {
+          credentials: 'include',
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json',
+          },
+        }
+      );
       if (response.status === 400) throw new Error('Incorrect post id');
       if (!response.ok) throw new Error('Failed to delete post');
     } catch (error) {

@@ -8,12 +8,18 @@ import PostDetailPage from '../pages/PostDetailPage';
 import ProfilePage from '../pages/ProfilePage';
 import UsersPage from '../pages/UsersPage';
 import ErrorPage from '../components/ErrorPage';
+import AuthHandler from '../components/AuthHandler';
 
 const router = createBrowserRouter([
   {
     errorElement: <ErrorPage />,
     path: '/sign',
     element: <SignInPage />,
+  },
+  {
+    errorElement: <ErrorPage />,
+    path: '/auth-success',
+    element: <AuthHandler />,
   },
   {
     errorElement: <ErrorPage />,

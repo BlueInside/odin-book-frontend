@@ -3,12 +3,18 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import UsersList from '../../src/components/UsersList';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { authFetch } from '../../src/utilities/authFetch';
+
+vi.mock('../../src/utilities/authFetch', () => ({
+  authFetch: vi.fn(),
+}));
 
 globalThis.fetch = vi.fn();
 
 describe('UsersList', () => {
   beforeEach(() => {
     fetch.mockClear();
+    authFetch.mockClear();
   });
   const users = [
     {
@@ -69,7 +75,7 @@ describe('UsersList', () => {
 
     await user.click(followButton);
 
-    expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/follow`, {
+    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/follow`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +97,7 @@ describe('UsersList', () => {
 
     await user.click(unfollowButton);
 
-    expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/unfollow`, {
+    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/unfollow`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ import {
   StyledSelect,
   StyledTextArea,
 } from '../styles/EditProfileFormStyles.styled';
+import { authFetch } from '../utilities/authFetch';
 
 export default function EditProfileForm({
   userDetails,
@@ -79,7 +80,7 @@ export default function EditProfileForm({
     }
 
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `http://localhost:3000/users/${userDetails._id}`,
         {
           method: 'PUT',

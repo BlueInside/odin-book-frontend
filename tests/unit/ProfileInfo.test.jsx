@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ProfileInfo from '../../src/components/ProfileInfo';
 import userEvent from '@testing-library/user-event';
+import { authFetch } from '../../src/utilities/authFetch';
 
 const mockSetUserDetails = vi.fn();
 
@@ -11,6 +12,10 @@ vi.mock('../../src/components/EditProfileForm', () => ({
 
 vi.mock('../../src/components/PostList', () => ({
   default: () => <div>Post list</div>,
+}));
+
+vi.mock('../../src/utilities/authFetch', () => ({
+  authFetch: vi.fn(),
 }));
 
 globalThis.fetch = vi.fn();
@@ -121,6 +126,9 @@ describe('ProfileInfo component', () => {
 });
 
 describe('ProfileInfo follow button', () => {
+  beforeEach(() => {
+    authFetch.mockClear();
+  });
   const userDetails = {
     _id: 'user123',
     isFollowedByCurrentUser: false,
@@ -186,41 +194,35 @@ describe('ProfileInfo follow button', () => {
     const unfollowButton = screen.getByText('Unfollow');
     expect(unfollowButton).toBeInTheDocument();
     await user.click(unfollowButton);
-    expect(fetch).toHaveBeenCalledWith(
-      `http://localhost:3000/unfollow`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ followedId: userDetails._id }),
-      }
-    );
+    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/unfollow`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ followedId: userDetails._id }),
+    });
   });
 
   it('calls the follow function when the follow button is clicked', async () => {
     const user = userEvent.setup();
     render(
       <ProfileInfo
-        userDetails={userDetails}
+        userDetails={{ ...userDetails, isFollowedByCurrentUser: false }}
         setUserDetails={mockSetUserDetails}
         currentUserId="user456"
       />
     );
     const followButton = screen.getByText('Follow');
     await user.click(followButton);
-    expect(fetch).toHaveBeenCalledWith(
-      `http://localhost:3000//follow`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ followedId: userDetails._id }),
-      }
-    );
+    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/follow`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ followedId: userDetails._id }),
+    });
   });
 
   it('display form when on edit button click', async () => {

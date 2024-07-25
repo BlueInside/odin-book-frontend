@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import ProfileInfo from '../components/ProfileInfo';
 import LoadingSpinner from '../components/Spinner';
 import ErrorPage from '../components/ErrorPage';
+import { authFetch } from '../utilities/authFetch';
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -14,7 +15,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:3000/users/${userId}`, {
+    authFetch(`http://localhost:3000/users/${userId}`, {
       method: 'GET',
       credentials: 'include',
     })

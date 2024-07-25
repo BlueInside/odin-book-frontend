@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { useAuth } from '../hooks/useAuth';
 import Footer from '../components/Footer';
@@ -13,32 +13,33 @@ import {
   OrDivider,
 } from '../styles/SignIn.styled';
 import { useState } from 'react';
+import { authFetch } from '../utilities/authFetch';
 
 export default function SignInPage() {
   const { user, setUser } = useAuth();
   const [error, setError] = useState(null);
-
   const navigate = useNavigate();
+  let location = useLocation();
+
+  if (location?.state?.error) setError(location.state.error);
 
   const handleGitHubSignIn = () => {
     setError(null);
-    window.location.href =
-      'http://localhost:3000/auth/github';
+    window.location.href = 'http://localhost:3000/auth/github';
   };
 
   const handleGuestSignIn = async () => {
     try {
       setError(null);
-      const response = await fetch(
-        'http://localhost:3000/auth/guest',
-        {
-          method: 'GET',
-          credentials: 'include', // Ensure cookies are included
-        }
-      );
+      const response = await authFetch('http://localhost:3000/auth/guest', {
+        method: 'GET',
+        credentials: 'include', // Ensure cookies are included
+      });
       if (response.ok) {
         const result = await response.json();
         setUser(result.user);
+        console.log(`RESULT random user: `, result);
+        localStorage.setItem('jwtToken', result.token);
         navigate('/');
       } else {
         throw new Error('Failed to sign in as guest');

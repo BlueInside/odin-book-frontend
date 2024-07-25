@@ -3,10 +3,17 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CreateComment from '../../src/components/CreateComment';
 import { useAuth } from '../../src/hooks/useAuth';
+import { authFetch } from '../../src/utilities/authFetch';
+
+vi.mock('../../src/utilities/authFetch', () => ({
+  authFetch: vi.fn(),
+}));
+
 // Mocking useAuth and fetch
 vi.mock('../../src/hooks/useAuth', () => ({
   useAuth: vi.fn(),
 }));
+
 globalThis.fetch = vi.fn();
 
 describe('CreateComment', () => {
@@ -16,11 +23,12 @@ describe('CreateComment', () => {
   beforeEach(() => {
     useAuth.mockReturnValue({ user: mockUser });
     fetch.mockClear();
+    authFetch.mockClear();
     vi.clearAllMocks();
   });
 
   it('renders correctly and submits a new comment', async () => {
-    fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: true,
       json: () =>
         Promise.resolve({ comment: { id: '123', content: 'Nice post!' } }),
@@ -38,7 +46,7 @@ describe('CreateComment', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
+      expect(authFetch).toHaveBeenCalledWith('http://localhost:3000/comments', {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -72,7 +80,7 @@ describe('CreateComment', () => {
 
   it('handles server errors', async () => {
     const user = userEvent.setup();
-    fetch.mockRejectedValueOnce(new Error('Failed to create post'));
+    authFetch.mockRejectedValueOnce(new Error('Failed to create post'));
 
     render(<CreateComment postId="1" addComment={mockAddComment} />);
 

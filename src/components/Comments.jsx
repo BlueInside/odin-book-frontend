@@ -12,6 +12,7 @@ import {
 } from '../styles/Comments.styled';
 import { useAuth } from '../hooks/useAuth';
 import { useState } from 'react';
+import { authFetch } from '../utilities/authFetch';
 
 export default function Comments({ comments, postId, deleteComment }) {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ export default function Comments({ comments, postId, deleteComment }) {
     try {
       setError(null);
 
-      const response = await fetch('http://localhost:3000/comments', {
+      const response = await authFetch('http://localhost:3000/comments', {
         credentials: 'include',
         method: 'DELETE',
         headers: {

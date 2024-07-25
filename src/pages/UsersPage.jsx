@@ -9,6 +9,7 @@ import {
   StyledContainer,
   SearchButton,
 } from '../styles/UsersPageStyles.styled';
+import { authFetch } from '../utilities/authFetch';
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -21,7 +22,7 @@ export default function UsersPage() {
   useEffect(() => {
     const fetchUsers = async (page = currentPage) => {
       try {
-        const response = await fetch(
+        const response = await authFetch(
           `http://localhost:3000/users/?q=${encodeURIComponent(
             query
           )}&page=${page}`,

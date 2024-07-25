@@ -12,6 +12,7 @@ import {
 } from '../styles/PostDetailPageStyles.styled';
 import CreateComment from '../components/CreateComment';
 import { StyledLink } from '../styles/Comments.styled';
+import { authFetch } from '../utilities/authFetch';
 
 export default function PostDetailPage() {
   const { postId } = useParams();
@@ -25,7 +26,7 @@ export default function PostDetailPage() {
     const fetchPost = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
+        const response = await authFetch(
           `http://localhost:3000/posts/${postId}`,
           {
             credentials: 'include',

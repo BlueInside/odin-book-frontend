@@ -5,9 +5,15 @@ import { MemoryRouter } from 'react-router-dom';
 import usePosts from '../../src/hooks/usePosts';
 import { useAuth } from '../../src/hooks/useAuth';
 import userEvent from '@testing-library/user-event';
+import { authFetch } from '../../src/utilities/authFetch';
 
 // Mock
+vi.mock('../../src/utilities/authFetch', () => ({
+  authFetch: vi.fn(),
+}));
+
 vi.mock('../../src/hooks/usePosts', () => ({ default: vi.fn() }));
+
 vi.mock('../../src/components/ErrorPage', () => ({
   default: () => <div>Error...</div>,
 }));
@@ -61,6 +67,7 @@ describe('Post list', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     fetch.mockClear();
+    authFetch.mockClear();
     useAuth.mockReturnValue({
       user: { id: 'id1', firstName: 'karol', role: 'user' },
     });
@@ -140,7 +147,7 @@ describe('Post list', () => {
 
   it('Should send DELETE fetch request on button click', async () => {
     usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
-    fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ message: 'Post deleted' }),
     });
@@ -160,21 +167,18 @@ describe('Post list', () => {
     // Click on first post delete button
     await user.click(deletePostButtons[0]);
 
-    expect(fetch).toHaveBeenCalledWith(
-      `http://localhost:3000/posts/1`,
-      {
-        credentials: 'include',
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/posts/1`, {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
   });
 
   it('Should hide removed post', async () => {
     usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
-    fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ message: 'Post deleted' }),
     });
@@ -195,23 +199,20 @@ describe('Post list', () => {
     // Click on first post delete button
     await user.click(deletePostButtons[0]);
 
-    expect(fetch).toHaveBeenCalledWith(
-      `http://localhost:3000/posts/1`,
-      {
-        credentials: 'include',
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    );
+    expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/posts/1`, {
+      credentials: 'include',
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
 
     expect(screen.getAllByRole('article')).toHaveLength(2);
   });
 
   it('Should not remove the post if the delete operation fails', async () => {
     usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
-    fetch.mockRejectedValueOnce(new Error('Network Error'));
+    authFetch.mockRejectedValueOnce(new Error('Network Error'));
 
     const user = userEvent.setup();
     render(
@@ -233,7 +234,7 @@ describe('Post list', () => {
 
   it('Displays an error message when the delete operation fails', async () => {
     usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
-    fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: false,
       status: 400,
       json: () => Promise.resolve({ message: 'Incorrect post id' }),
@@ -262,12 +263,13 @@ describe('Liking a Post', () => {
   beforeEach(() => {
     usePosts.mockReturnValue({ posts: postsMock, loading: false, error: null });
     fetch.mockClear();
+    authFetch.mockClear();
     useAuth.mockReturnValue({ user: { id: 'id1', firstName: 'karol' } });
   });
 
   it('should increase like count optimistically and send POST request', async () => {
     const user = userEvent.setup();
-    fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ message: 'Like added' }),
     });
@@ -283,21 +285,18 @@ describe('Liking a Post', () => {
 
     expect(screen.getByText('17')).toBeInTheDocument();
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/likes`,
-        {
-          credentials: 'include',
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ postId: '1' }),
-        }
-      );
+      expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/likes`, {
+        credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postId: '1' }),
+      });
     });
   });
 
   it('should handle like error by reverting the like count', async () => {
     const user = userEvent.setup();
-    fetch.mockRejectedValueOnce(new Error('Failed to update like status'));
+    authFetch.mockRejectedValueOnce(new Error('Failed to update like status'));
 
     render(
       <MemoryRouter>
@@ -333,7 +332,7 @@ describe('Liking a Post', () => {
       },
     ];
     usePosts.mockReturnValue({ posts: postsMock });
-    fetch.mockResolvedValueOnce({
+    authFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ message: 'Like removed' }),
     });
@@ -353,15 +352,12 @@ describe('Liking a Post', () => {
     // Check if like count was optimistically updated
     expect(screen.getByText('15')).toBeInTheDocument(); // Assuming initial count was 16
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/likes`,
-        {
-          credentials: 'include',
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ postId: '1' }),
-        }
-      );
+      expect(authFetch).toHaveBeenCalledWith(`http://localhost:3000/likes`, {
+        credentials: 'include',
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postId: '1' }),
+      });
     });
   });
 });

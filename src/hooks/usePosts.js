@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { authFetch } from '../utilities/authFetch';
 
 export default function usePosts(apiUrl) {
   const [posts, setPosts] = useState([]);
@@ -10,7 +11,7 @@ export default function usePosts(apiUrl) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${apiUrl}?page=${currentPage}`, {
+    authFetch(`${apiUrl}?page=${currentPage}`, {
       method: 'GET',
       credentials: 'include',
     })

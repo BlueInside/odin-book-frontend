@@ -1,14 +1,16 @@
+import { authFetch } from './authFetch';
+
 async function fetchProfileData(userId) {
   const userDetailsUrl = `http://localhost:3000/users/${userId}`;
   const userPostsUrl = `http://localhost:3000/users/${userId}/posts`;
 
   try {
     const [userDetailsResponse, userPostsResponse] = await Promise.all([
-      fetch(userDetailsUrl, {
+      authFetch(userDetailsUrl, {
         method: 'GET',
         credentials: 'include',
       }),
-      fetch(userPostsUrl, {
+      authFetch(userPostsUrl, {
         method: 'GET',
         credentials: 'include',
       }),
