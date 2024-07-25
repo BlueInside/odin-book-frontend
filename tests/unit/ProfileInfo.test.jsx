@@ -194,14 +194,17 @@ describe('ProfileInfo follow button', () => {
     const unfollowButton = screen.getByText('Unfollow');
     expect(unfollowButton).toBeInTheDocument();
     await user.click(unfollowButton);
-    expect(authFetch).toHaveBeenCalledWith(`https://odin-book-backend-production.up.railway.app//unfollow`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ followedId: userDetails._id }),
-    });
+    expect(authFetch).toHaveBeenCalledWith(
+      `https://odin-book-backend-production.up.railway.app/unfollow`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ followedId: userDetails._id }),
+      }
+    );
   });
 
   it('calls the follow function when the follow button is clicked', async () => {
@@ -215,14 +218,17 @@ describe('ProfileInfo follow button', () => {
     );
     const followButton = screen.getByText('Follow');
     await user.click(followButton);
-    expect(authFetch).toHaveBeenCalledWith(`https://odin-book-backend-production.up.railway.app/follow`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ followedId: userDetails._id }),
-    });
+    expect(authFetch).toHaveBeenCalledWith(
+      `https://odin-book-backend-production.up.railway.app/follow`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ followedId: userDetails._id }),
+      }
+    );
   });
 
   it('display form when on edit button click', async () => {
