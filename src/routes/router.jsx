@@ -22,6 +22,10 @@ const router = createBrowserRouter([
     element: <AuthHandler />,
   },
   {
+    path: '/error',
+    element: <ErrorPage />,
+  },
+  {
     errorElement: <ErrorPage />,
     path: '/',
     element: (
