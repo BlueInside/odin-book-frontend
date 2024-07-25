@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
       .then((data) => {
         if (data.message === 'Valid token') {
           setUser(data.user);
-          localStorage.setItem('jwtToken', data.token);
         } else {
           setUser(null);
         }
@@ -26,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         console.error('Error verifying user:', error);
         setIsLoading(false);
         localStorage.removeItem('jwtToken');
+        setUser(null);
       });
   }, []);
 
